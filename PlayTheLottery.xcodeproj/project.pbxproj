@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		C5506E762B8D9B9D00CB5F6D /* PlayTheLotteryApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5506E752B8D9B9D00CB5F6D /* PlayTheLotteryApp.swift */; };
-		C5506E782B8D9B9D00CB5F6D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5506E772B8D9B9D00CB5F6D /* ContentView.swift */; };
 		C5506E7A2B8D9B9F00CB5F6D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C5506E792B8D9B9F00CB5F6D /* Assets.xcassets */; };
 		C5506E7D2B8D9B9F00CB5F6D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C5506E7C2B8D9B9F00CB5F6D /* Preview Assets.xcassets */; };
 /* End PBXBuildFile section */
@@ -17,7 +16,6 @@
 		C53EA6732C94749D00C15FD3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C5506E722B8D9B9D00CB5F6D /* PlayTheLottery.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PlayTheLottery.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C5506E752B8D9B9D00CB5F6D /* PlayTheLotteryApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayTheLotteryApp.swift; sourceTree = "<group>"; };
-		C5506E772B8D9B9D00CB5F6D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		C5506E792B8D9B9F00CB5F6D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C5506E7C2B8D9B9F00CB5F6D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -63,7 +61,6 @@
 				C5A35DE32CA5AEFD0091517E /* GeneratingNumbers */,
 				C5A35DDC2CA5AEAE0091517E /* Home */,
 				C5506E752B8D9B9D00CB5F6D /* PlayTheLotteryApp.swift */,
-				C5506E772B8D9B9D00CB5F6D /* ContentView.swift */,
 				C5506E792B8D9B9F00CB5F6D /* Assets.xcassets */,
 				C5506E7B2B8D9B9F00CB5F6D /* Preview Content */,
 			);
@@ -153,7 +150,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C5506E782B8D9B9D00CB5F6D /* ContentView.swift in Sources */,
 				C5506E762B8D9B9D00CB5F6D /* PlayTheLotteryApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

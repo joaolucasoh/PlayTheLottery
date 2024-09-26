@@ -31,24 +31,26 @@ struct SplashView: View {
 
 struct LoadingView: View {
     var body: some View {
-        ZStack {
+        ZStack(alignment: .center) {
             Image("banner")
                 .resizable()
                 .scaledToFit()
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .padding(20)
+                .padding(.horizontal, 1)
                 .background(Color.white)
                 .ignoresSafeArea()
+            
+            Text("It's time to play")
+                .foregroundColor(.green)
+                .font(Font.system(.title3).bold())
+                .padding(.top, 20)
+            Text("Copyright @ Raven Logic")
+                .foregroundColor(Color.gray)
+                .font(Font.system(size: 16).bold())
+                .padding(.top, 600)
         }
     }
 }
-
-//struct HomeScreenView: View {
-//    var body: some View {
-//        /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Hello, world!@*/Text("Hello, world!")/*@END_MENU_TOKEN@*/
-//    }
-//}
-//
 
 struct SplashView_Previews: PreviewProvider {
     static var previews: some View {
