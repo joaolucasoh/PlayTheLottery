@@ -145,20 +145,6 @@ struct ContentView: View {
                     }
                     .frame(height: 50)
                 }
-                VStack{
-                    Button(action: {
-                        shareViaWhatsApp(gameType: selectedGameType, message: alertMessage)
-                    }){
-                        Text("Compartilhar")
-                            .font(.headline)
-                            .foregroundColor(.white)
-                            .padding()
-                            .background(Color.green)
-                            .cornerRadius(10)
-                    }
-                    .disabled(!isShareButtonEnabled)
-                    .frame(height: 50)
-                }
             }
             .frame(maxWidth: .infinity) // Garante que a HStack ocupe toda a largura disponível
         }

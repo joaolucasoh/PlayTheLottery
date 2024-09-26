@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -21,6 +21,12 @@
 		C5506E792B8D9B9F00CB5F6D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C5506E7C2B8D9B9F00CB5F6D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		C5A35DDC2CA5AEAE0091517E /* Home */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Home; sourceTree = "<group>"; };
+		C5A35DE32CA5AEFD0091517E /* GeneratingNumbers */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = GeneratingNumbers; sourceTree = "<group>"; };
+		C5A35DE42CA5AF0D0091517E /* Splash */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Splash; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		C5506E6F2B8D9B9D00CB5F6D /* Frameworks */ = {
@@ -53,6 +59,9 @@
 		C5506E742B8D9B9D00CB5F6D /* PlayTheLottery */ = {
 			isa = PBXGroup;
 			children = (
+				C5A35DE42CA5AF0D0091517E /* Splash */,
+				C5A35DE32CA5AEFD0091517E /* GeneratingNumbers */,
+				C5A35DDC2CA5AEAE0091517E /* Home */,
 				C5506E752B8D9B9D00CB5F6D /* PlayTheLotteryApp.swift */,
 				C5506E772B8D9B9D00CB5F6D /* ContentView.swift */,
 				C5506E792B8D9B9F00CB5F6D /* Assets.xcassets */,
@@ -83,6 +92,11 @@
 			buildRules = (
 			);
 			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				C5A35DDC2CA5AEAE0091517E /* Home */,
+				C5A35DE32CA5AEFD0091517E /* GeneratingNumbers */,
+				C5A35DE42CA5AF0D0091517E /* Splash */,
 			);
 			name = PlayTheLottery;
 			productName = PlayTheLottery;
