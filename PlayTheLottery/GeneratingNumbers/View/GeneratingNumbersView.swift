@@ -56,118 +56,132 @@ struct GeneratingNumbersView: View {
     }
     
     var body: some View {
-        VStack(spacing: 60) {
-            Text("Escolha para qual jogo deseja os números🤞🏽🍀")
-                .font(.title)
-                .bold()
-                .padding(.vertical, 20)
-                .padding(.horizontal, 20)
+        ZStack {
+            Color.white
+                .ignoresSafeArea()
             
-            HStack {
-                VStack {
-                    Image("mega-sena-button")
-                        .onTapGesture {
-                            generateNumbers.toggle()
-                            let generatedNumber = randomLottoNumberGenerator(total: 6, maxNumber: 60)
-                            alertMessage = setToString(set: generatedNumber)
-                            selectedGameType = "Mega-Sena"
-                            isShareButtonEnabled = true
-                            showAlert = true
-                        }
-                    
-                    Text("Mega-Sena")
-                        .frame(maxWidth: .infinity, alignment: .center)
-                        .bold()
-                }
-                VStack {
-                    Image("loto-facil-button")
-                        .onTapGesture {
-                            generateNumbers.toggle()
-                            let generatedNumber = randomLottoNumberGenerator(total: 15, maxNumber: 25)
-                            alertMessage = setToString(set: generatedNumber)
-                            selectedGameType = "Lotofácil"
-                            isShareButtonEnabled = true
-                            showAlert = true
-                        }
-                    Text("Lotofácil")
-                        .frame(maxWidth: .infinity, alignment: .center)
-                        .bold()
-                }
-            }
-            
-            HStack {
-                VStack {
-                    Image("quina-button")
-                        .onTapGesture {
-                            generateNumbers.toggle()
-                            let generatedNumber = randomLottoNumberGenerator(total: 5, maxNumber: 80)
-                            alertMessage = setToString(set: generatedNumber)
-                            selectedGameType = "Quina"
-                            isShareButtonEnabled = true
-                            showAlert = true
-                        }
-                    Text("Quina")
-                        .frame(maxWidth: .infinity, alignment: .center)
-                        .bold()
-                }
-                VStack {
-                    Image("lotomania-button")
-                        .onTapGesture {
-                            generateNumbers.toggle()
-                            let generatedNumber = randomLottoNumberGenerator(total: 50, maxNumber: 100)
-                            alertMessage = setToString(set: generatedNumber)
-                            selectedGameType = "Lotomania"
-                            isShareButtonEnabled = true
-                            showAlert = true
-                        }
-                    Text("Lotomania")
-                        .frame(maxWidth: .infinity, alignment: .center)
-                        .bold()
-                }
-            }
-            
-            HStack(spacing: 20) {
-                Button(action: {
-                     if let url = URL(string: "loterias://caixa") {
-                         if UIApplication.shared.canOpenURL(url) {
-                             UIApplication.shared.open(url)
-                         } else {
-                             if let appStoreUrl = URL(string: "https://apps.apple.com/br/app/loterias-caixa/id1436530324?l=en-GB"){
-                                 UIApplication.shared.open(appStoreUrl)
-                             }
-                         }
-                     }
-                  
-                }) {
-                    Text("Apostar")
-                        .font(.headline)
-                        .foregroundColor(.white)
-                        .frame(width: 120)
-                        .padding()
-                        .background(Color.blue)
-                        .cornerRadius(10)
+            VStack(spacing: 60) {
+                Text("Escolha para qual jogo deseja os números🤞🏽🍀")
+                    .font(.title)
+                    .foregroundColor(Color.black)
+                    .multilineTextAlignment(.center)
+                    .frame(maxWidth: .infinity)
+                    .minimumScaleFactor(0.5)
+                    .bold()
+                    .padding(.vertical, 20)
+                    .padding(.horizontal, 20)
+                
+                HStack {
+                    VStack {
+                        Image("mega-sena-button")
+                            .onTapGesture {
+                                generateNumbers.toggle()
+                                let generatedNumber = randomLottoNumberGenerator(total: 6, maxNumber: 60)
+                                alertMessage = setToString(set: generatedNumber)
+                                selectedGameType = "Mega-Sena"
+                                isShareButtonEnabled = true
+                                showAlert = true
+                            }
+                        
+                        Text("Mega-Sena")
+                            .frame(maxWidth: .infinity, alignment: .center)
+                            .foregroundColor(Color.black)
+                            .bold()
+                    }
+                    VStack {
+                        Image("loto-facil-button")
+                            .onTapGesture {
+                                generateNumbers.toggle()
+                                let generatedNumber = randomLottoNumberGenerator(total: 15, maxNumber: 25)
+                                alertMessage = setToString(set: generatedNumber)
+                                selectedGameType = "Lotofácil"
+                                isShareButtonEnabled = true
+                                showAlert = true
+                            }
+                        Text("Lotofácil")
+                            .frame(maxWidth: .infinity, alignment: .center)
+                            .foregroundColor(Color.black)
+                            .bold()
+                    }
                 }
                 
-                Button(action: {
-                     shareViaWhatsApp(gameType: selectedGameType, message: alertMessage)
-                }) {
-                    Text("Compartilhar")
-                        .font(.headline)
-                        .foregroundColor(.white)
-                        .frame(width: 120)
-                        .padding()
-                        .background(Color.green)
-                        .cornerRadius(10)
+                HStack {
+                    VStack {
+                        Image("quina-button")
+                            .onTapGesture {
+                                generateNumbers.toggle()
+                                let generatedNumber = randomLottoNumberGenerator(total: 5, maxNumber: 80)
+                                alertMessage = setToString(set: generatedNumber)
+                                selectedGameType = "Quina"
+                                isShareButtonEnabled = true
+                                showAlert = true
+                            }
+                        Text("Quina")
+                            .frame(maxWidth: .infinity, alignment: .center)
+                            .foregroundColor(Color.black)
+                            .bold()
+                    }
+                    VStack {
+                        Image("lotomania-button")
+                            .onTapGesture {
+                                generateNumbers.toggle()
+                                let generatedNumber = randomLottoNumberGenerator(total: 50, maxNumber: 100)
+                                alertMessage = setToString(set: generatedNumber)
+                                selectedGameType = "Lotomania"
+                                isShareButtonEnabled = true
+                                showAlert = true
+                            }
+                        Text("Lotomania")
+                            .frame(maxWidth: .infinity, alignment: .center)
+                            .foregroundColor(Color.black)
+                            .bold()
+                    }
                 }
-                .disabled(!isShareButtonEnabled)
+                
+                HStack(spacing: 20) {
+                    Button(action: {
+                        if let url = URL(string: "loterias://caixa") {
+                            if UIApplication.shared.canOpenURL(url) {
+                                UIApplication.shared.open(url)
+                            } else {
+                                if let appStoreUrl = URL(string: "https://apps.apple.com/br/app/loterias-caixa/id1436530324?l=en-GB"){
+                                    UIApplication.shared.open(appStoreUrl)
+                                }
+                            }
+                        }
+                        
+                    }) {
+                        Text("Apostar")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .frame(width: 120)
+                            .padding()
+                            .background(Color.blue)
+                            .cornerRadius(10)
+                    }
+                    
+                    Button(action: {
+                        shareViaWhatsApp(gameType: selectedGameType, message: alertMessage)
+                    }) {
+                        Text("Compartilhar")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .frame(width: 120)
+                            .padding()
+                            .background(Color.green)
+                            .cornerRadius(10)
+                    }
+                    .disabled(!isShareButtonEnabled)
+                }
+                .alert(isPresented: $showAlert) {
+                    Alert(title: Text("Os números são:"), message: Text(alertMessage), dismissButton: .default(Text("Boa Sorte!🤞🏽")))
+                }
             }
-            .alert(isPresented: $showAlert) {
-                Alert(title: Text("Os números são:"), message: Text(alertMessage), dismissButton: .default(Text("Boa Sorte!🤞🏽")))
-            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(Color.white)
+            .ignoresSafeArea()
+            .padding()
         }
-        .frame(maxWidth: .infinity)
-        .background(Color.white)
-        .padding()
     }
 }
 
