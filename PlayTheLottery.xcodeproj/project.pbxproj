@@ -21,7 +21,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		C5A35DDC2CA5AEAE0091517E /* Home */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Home; sourceTree = "<group>"; };
 		C5A35DE32CA5AEFD0091517E /* GeneratingNumbers */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = GeneratingNumbers; sourceTree = "<group>"; };
 		C5A35DE42CA5AF0D0091517E /* Splash */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Splash; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -59,7 +58,6 @@
 			children = (
 				C5A35DE42CA5AF0D0091517E /* Splash */,
 				C5A35DE32CA5AEFD0091517E /* GeneratingNumbers */,
-				C5A35DDC2CA5AEAE0091517E /* Home */,
 				C5506E752B8D9B9D00CB5F6D /* PlayTheLotteryApp.swift */,
 				C5506E792B8D9B9F00CB5F6D /* Assets.xcassets */,
 				C5506E7B2B8D9B9F00CB5F6D /* Preview Content */,
@@ -91,7 +89,6 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				C5A35DDC2CA5AEAE0091517E /* Home */,
 				C5A35DE32CA5AEFD0091517E /* GeneratingNumbers */,
 				C5A35DE42CA5AF0D0091517E /* Splash */,
 			);
@@ -281,6 +278,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"PlayTheLottery/Preview Content\"";
@@ -288,6 +286,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = $SRCROOT/PlayTheLottery/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Play The Lottery";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -312,6 +312,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"PlayTheLottery/Preview Content\"";
@@ -319,6 +320,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = $SRCROOT/PlayTheLottery/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Play The Lottery";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

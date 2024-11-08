@@ -1,25 +1,27 @@
-//
-//  GeneratingNumbersView.swift
-//  PlayTheLottery
-//
-//  Created by joaolucas on 26/09/24.
-//
-
 import SwiftUI
 
 struct GeneratingNumbersView: View {
     
-    @State var generateNumbers = false
     @State private var alertMessage = ""
-    @State private var showAlert = false
-    @State private var selectedGameType = ""
+    @State private var showCustomAlert = false
     @State private var isShareButtonEnabled = false
+    @State private var selectedGameType = ""
+    @State private var selectedGameConfig: GameConfig?
     
     @ObservedObject var viewModel: GeneratingNumbersViewModel
     
-    struct MyVariables {
-        static var lottery = ""
+    struct GameConfig {
+        let name: String
+        let totalNumbers: Int
+        let maxNumber: Int
     }
+    
+    let gameConfigs = [
+        GameConfig(name: "Mega-Sena", totalNumbers: 6, maxNumber: 60),
+        GameConfig(name: "Lotofacil", totalNumbers: 15, maxNumber: 25),
+        GameConfig(name: "Quina", totalNumbers: 5, maxNumber: 80),
+        GameConfig(name: "Lotomania", totalNumbers: 50, maxNumber: 100)
+    ]
     
     func randomLottoNumberGenerator(total: Int, maxNumber: Int) -> Set<Int> {
         var numbers = total
@@ -34,6 +36,14 @@ struct GeneratingNumbersView: View {
             }
         }
         return result
+    }
+    
+    func generateNumbersForSelectedGame() {
+        guard let config = selectedGameConfig else { return }
+        let generatedNumbers = randomLottoNumberGenerator(total: config.totalNumbers, maxNumber: config.maxNumber)
+        alertMessage = setToString(set: generatedNumbers)
+        selectedGameType = config.name
+        isShareButtonEnabled = true
     }
     
     func setToString(set: Set<Int>) -> String {
@@ -71,70 +81,23 @@ struct GeneratingNumbersView: View {
                     .padding(.vertical, 20)
                     .padding(.horizontal, 20)
                 
-                HStack {
-                    VStack {
-                        Image("mega-sena-button")
-                            .onTapGesture {
-                                generateNumbers.toggle()
-                                let generatedNumber = randomLottoNumberGenerator(total: 6, maxNumber: 60)
-                                alertMessage = setToString(set: generatedNumber)
-                                selectedGameType = "Mega-Sena"
-                                isShareButtonEnabled = true
-                                showAlert = true
-                            }
-                        
-                        Text("Mega-Sena")
-                            .frame(maxWidth: .infinity, alignment: .center)
-                            .foregroundColor(Color.black)
-                            .bold()
-                    }
-                    VStack {
-                        Image("loto-facil-button")
-                            .onTapGesture {
-                                generateNumbers.toggle()
-                                let generatedNumber = randomLottoNumberGenerator(total: 15, maxNumber: 25)
-                                alertMessage = setToString(set: generatedNumber)
-                                selectedGameType = "Lotofácil"
-                                isShareButtonEnabled = true
-                                showAlert = true
-                            }
-                        Text("Lotofácil")
-                            .frame(maxWidth: .infinity, alignment: .center)
-                            .foregroundColor(Color.black)
-                            .bold()
-                    }
-                }
-                
-                HStack {
-                    VStack {
-                        Image("quina-button")
-                            .onTapGesture {
-                                generateNumbers.toggle()
-                                let generatedNumber = randomLottoNumberGenerator(total: 5, maxNumber: 80)
-                                alertMessage = setToString(set: generatedNumber)
-                                selectedGameType = "Quina"
-                                isShareButtonEnabled = true
-                                showAlert = true
-                            }
-                        Text("Quina")
-                            .frame(maxWidth: .infinity, alignment: .center)
-                            .foregroundColor(Color.black)
-                            .bold()
-                    }
-                    VStack {
-                        Image("lotomania-button")
-                            .onTapGesture {
-                                generateNumbers.toggle()
-                                let generatedNumber = randomLottoNumberGenerator(total: 50, maxNumber: 100)
-                                alertMessage = setToString(set: generatedNumber)
-                                selectedGameType = "Lotomania"
-                                isShareButtonEnabled = true
-                                showAlert = true
-                            }
-                        Text("Lotomania")
-                            .frame(maxWidth: .infinity, alignment: .center)
-                            .foregroundColor(Color.black)
-                            .bold()
+                LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 30) {
+                    ForEach(gameConfigs, id: \.name) { config in
+                        VStack {
+                            Image("\(config.name.lowercased())-button")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(height: 80)
+                                .onTapGesture {
+                                    selectedGameConfig = config
+                                    generateNumbersForSelectedGame()
+                                    showCustomAlert = true // Abre o alerta após gerar os números
+                                }
+                            Text(config.name)
+                                .frame(maxWidth: .infinity, alignment: .center)
+                                .foregroundColor(Color.black)
+                                .bold()
+                        }
                     }
                 }
                 
@@ -149,7 +112,6 @@ struct GeneratingNumbersView: View {
                                 }
                             }
                         }
-                        
                     }) {
                         Text("Apostar")
                             .font(.headline)
@@ -173,18 +135,35 @@ struct GeneratingNumbersView: View {
                     }
                     .disabled(!isShareButtonEnabled)
                 }
-                .alert(isPresented: $showAlert) {
-                    Alert(title: Text("Os números são:"), message: Text(alertMessage), dismissButton: .default(Text("Boa Sorte!🤞🏽")))
-                }
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color.white)
-            .ignoresSafeArea()
-            .padding()
+            .sheet(isPresented: $showCustomAlert) {
+                VStack(spacing: 20) {
+                    Text("Os números gerados para \(selectedGameType) foram:")
+                        .font(.headline)
+                    
+                    Text(alertMessage)
+                        .font(.title)
+                        .multilineTextAlignment(.center)
+                        .padding()
+                    
+                    Button("Gerar novamente") {
+                        generateNumbersForSelectedGame() // Gera novos números sem fechar o alert
+                    }
+                    .padding()
+                    .background(Color.blue)
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
+                    
+                    Button("Voltar") {
+                        showCustomAlert = false // Fecha o alert
+                    }
+                    .padding()
+                    .background(Color.gray)
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
+                }
+                .padding()
+            }
         }
     }
-}
-
-#Preview {
-    GeneratingNumbersView(viewModel: GeneratingNumbersViewModel()) // Certifique-se de ter um viewModel válido ou substitua com um mock
 }
