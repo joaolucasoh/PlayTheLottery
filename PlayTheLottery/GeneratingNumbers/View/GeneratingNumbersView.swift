@@ -167,3 +167,6 @@ struct GeneratingNumbersView: View {
         }
     }
 }
+#Preview {
+    GeneratingNumbersView(viewModel: GeneratingNumbersViewModel()) // Certifique-se de ter um viewModel válido ou substitua com um mock
+}
