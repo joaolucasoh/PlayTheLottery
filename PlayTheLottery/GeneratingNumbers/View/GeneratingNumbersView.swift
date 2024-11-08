@@ -138,8 +138,11 @@ struct GeneratingNumbersView: View {
             }
             .sheet(isPresented: $showCustomAlert) {
                 VStack(spacing: 20) {
-                    Text("Os números gerados para \(selectedGameType) foram:")
-                        .font(.headline)
+                    Text("Números gerados para ")
+                        .font(.title)
+                    Text("\(selectedGameType):")
+                        .font(.title)
+                        .bold()
                     
                     Text(alertMessage)
                         .font(.title)
