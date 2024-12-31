@@ -23,19 +23,30 @@ struct GeneratingNumbersView: View {
         GameConfig(name: "Lotomania", totalNumbers: 50, maxNumber: 100)
     ]
     
-    func randomLottoNumberGenerator(total: Int, maxNumber: Int) -> Set<Int> {
-        var numbers = total
-        var result: Set<Int> = []
+    func randomLottoNumberGenerator(total: Int, maxNumber: Int) -> [String] {
+        var numbers = total - 1
+        var result: Set<String> = []
         
         while numbers > 0 {
             let generated = Int.random(in: 1...maxNumber)
-            let res = result.insert(generated)
             
+            let numberToAdd = (generated == 100) ? "00" : String(format: "%02d", generated)
+
+            
+            let res = result.insert(numberToAdd)
             if res.inserted {
                 numbers -= 1
             }
         }
-        return result
+        
+        //order the generated numbers
+        var sortedResult = result.sorted()
+        
+        //move "00" to the last position when its generated
+        if let index = sortedResult.firstIndex(of: "00") {
+            sortedResult.append(sortedResult.remove(at: index))
+        }
+        return sortedResult
     }
     
     func generateNumbersForSelectedGame() {
@@ -46,9 +57,8 @@ struct GeneratingNumbersView: View {
         isShareButtonEnabled = true
     }
     
-    func setToString(set: Set<Int>) -> String {
-        let stringRepresentation = set.sorted().map { String($0) }.joined(separator: " 🍀 ")
-        return stringRepresentation
+    func setToString(set: [String]) -> String {
+        return set.joined(separator: " 🍀 ")
     }
     
     func shareViaWhatsApp(gameType: String, message: String) {
@@ -88,10 +98,10 @@ struct GeneratingNumbersView: View {
                                 .resizable()
                                 .scaledToFit()
                                 .frame(height: 80)
-                                .onTapGesture {
+                                .onTapGesture {  
                                     selectedGameConfig = config
                                     generateNumbersForSelectedGame()
-                                    showCustomAlert = true // Abre o alerta após gerar os números
+                                    showCustomAlert = true
                                 }
                             Text(config.name)
                                 .frame(maxWidth: .infinity, alignment: .center)
@@ -121,51 +131,61 @@ struct GeneratingNumbersView: View {
                             .background(Color.blue)
                             .cornerRadius(10)
                     }
-                    
-                    Button(action: {
-                        shareViaWhatsApp(gameType: selectedGameType, message: alertMessage)
-                    }) {
-                        Text("Compartilhar")
+                }
+                .sheet(isPresented: $showCustomAlert) {
+                    VStack(spacing: 20) {
+                        Text("Números gerados para ")
+                            .font(.title)
+                            .foregroundColor(.black)
+                        Text("\(selectedGameType):")
+                            .font(.title)
+                            .bold()
+                            .foregroundColor(.black)
+                        Text(alertMessage)
                             .font(.headline)
+                            .multilineTextAlignment(.center)
+                            .padding()
+                            .foregroundColor(.black)
+                        
+                    }
+                    VStack {
+                        HStack {
+                            Button("Gerar") {
+                                generateNumbersForSelectedGame() // Gera novos números sem fechar o alert
+                            }
+                            .padding()
+                            .background(Color.blue)
                             .foregroundColor(.white)
-                            .frame(width: 120)
+                            .cornerRadius(10)
+                            
+                            Button("Compartilhar") {
+                                shareViaWhatsApp(gameType: selectedGameType, message: alertMessage)
+                            }
                             .padding()
                             .background(Color.green)
+                            .foregroundColor(.white)
                             .cornerRadius(10)
-                    }
-                    .disabled(!isShareButtonEnabled)
-                }
-            }
-            .sheet(isPresented: $showCustomAlert) {
-                VStack(spacing: 20) {
-                    Text("Números gerados para ")
-                        .font(.title)
-                    Text("\(selectedGameType):")
-                        .font(.title)
-                        .bold()
-                    
-                    Text(alertMessage)
-                        .font(.title)
-                        .multilineTextAlignment(.center)
+                            .disabled(!isShareButtonEnabled) // Desabilita o botão se não houver números gerados
+                            
+                            Button("Voltar") {
+                                showCustomAlert = false // Fecha o alert
+                            }
+                            .padding()
+                            .background(Color.gray)
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                        }
                         .padding()
-                    
-                    Button("Gerar novamente") {
-                        generateNumbersForSelectedGame() // Gera novos números sem fechar o alert
                     }
                     .padding()
-                    .background(Color.blue)
-                    .foregroundColor(.white)
-                    .cornerRadius(10)
-                    
-                    Button("Voltar") {
-                        showCustomAlert = false // Fecha o alert
+                    .background(Color.white)
+                    .preferredColorScheme(.light)
+                    .onAppear {
+                        if alertMessage.isEmpty { // Garante que números são gerados antes de mostrar o alerta
+                            generateNumbersForSelectedGame()
+                        }
                     }
-                    .padding()
-                    .background(Color.gray)
-                    .foregroundColor(.white)
-                    .cornerRadius(10)
                 }
-                .padding()
             }
         }
     }
