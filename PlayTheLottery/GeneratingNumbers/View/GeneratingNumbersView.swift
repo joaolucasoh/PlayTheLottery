@@ -24,7 +24,7 @@ struct GeneratingNumbersView: View {
     ]
     
     func randomLottoNumberGenerator(total: Int, maxNumber: Int) -> [String] {
-        var numbers = total - 1
+        var numbers = total
         var result: Set<String> = []
         
         while numbers > 0 {
@@ -74,7 +74,7 @@ struct GeneratingNumbersView: View {
             }
         }
     }
-    
+
     var body: some View {
         ZStack {
             Color.white
@@ -87,7 +87,6 @@ struct GeneratingNumbersView: View {
                     .multilineTextAlignment(.center)
                     .frame(maxWidth: .infinity)
                     .minimumScaleFactor(0.5)
-                    .bold()
                     .padding(.vertical, 20)
                     .padding(.horizontal, 20)
                 
@@ -106,7 +105,6 @@ struct GeneratingNumbersView: View {
                             Text(config.name)
                                 .frame(maxWidth: .infinity, alignment: .center)
                                 .foregroundColor(Color.black)
-                                .bold()
                         }
                     }
                 }
