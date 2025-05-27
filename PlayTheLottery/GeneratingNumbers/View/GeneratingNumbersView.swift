@@ -110,24 +110,26 @@ struct GeneratingNumbersView: View {
                 }
                 
                 HStack(spacing: 20) {
-                    Button(action: {
-                        if let url = URL(string: "loterias://caixa") {
-                            if UIApplication.shared.canOpenURL(url) {
-                                UIApplication.shared.open(url)
-                            } else {
-                                if let appStoreUrl = URL(string: "https://apps.apple.com/br/app/loterias-caixa/id1436530324?l=en-GB"){
-                                    UIApplication.shared.open(appStoreUrl)
+                    if Locale.current.regionCode == "BR" {
+                        Button(action: {
+                            if let url = URL(string: "loterias://caixa") {
+                                if UIApplication.shared.canOpenURL(url) {
+                                    UIApplication.shared.open(url)
+                                } else {
+                                    if let appStoreUrl = URL(string: "https://apps.apple.com/br/app/loterias-caixa/id1436530324?l=en-GB") {
+                                        UIApplication.shared.open(appStoreUrl)
+                                    }
                                 }
                             }
+                        }) {
+                            Text("Apostar")
+                                .font(.headline)
+                                .foregroundColor(.white)
+                                .frame(width: 120)
+                                .padding()
+                                .background(Color.blue)
+                                .cornerRadius(10)
                         }
-                    }) {
-                        Text("Apostar")
-                            .font(.headline)
-                            .foregroundColor(.white)
-                            .frame(width: 120)
-                            .padding()
-                            .background(Color.blue)
-                            .cornerRadius(10)
                     }
                 }
                 .sheet(isPresented: $showCustomAlert) {
@@ -144,29 +146,32 @@ struct GeneratingNumbersView: View {
                             .multilineTextAlignment(.center)
                             .padding()
                             .foregroundColor(.black)
-                        
                     }
+                    
                     VStack {
                         HStack {
                             Button("Gerar") {
-                                generateNumbersForSelectedGame() // Gera novos números sem fechar o alert
+                                generateNumbersForSelectedGame()
                             }
                             .padding()
                             .background(Color.blue)
                             .foregroundColor(.white)
                             .cornerRadius(10)
                             
-                            Button("Compartilhar") {
-                                shareViaWhatsApp(gameType: selectedGameType, message: alertMessage)
+                            // ✅ Botão Compartilhar — só aparece se não for iPad
+                            if UIDevice.current.userInterfaceIdiom != .pad {
+                                Button("Compartilhar") {
+                                    shareViaWhatsApp(gameType: selectedGameType, message: alertMessage)
+                                }
+                                .padding()
+                                .background(Color.green)
+                                .foregroundColor(.white)
+                                .cornerRadius(10)
+                                .disabled(!isShareButtonEnabled)
                             }
-                            .padding()
-                            .background(Color.green)
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
-                            .disabled(!isShareButtonEnabled) // Desabilita o botão se não houver números gerados
                             
                             Button("Voltar") {
-                                showCustomAlert = false // Fecha o alert
+                                showCustomAlert = false
                             }
                             .padding()
                             .background(Color.gray)
@@ -179,7 +184,7 @@ struct GeneratingNumbersView: View {
                     .background(Color.white)
                     .preferredColorScheme(.light)
                     .onAppear {
-                        if alertMessage.isEmpty { // Garante que números são gerados antes de mostrar o alerta
+                        if alertMessage.isEmpty {
                             generateNumbersForSelectedGame()
                         }
                     }
@@ -189,5 +194,5 @@ struct GeneratingNumbersView: View {
     }
 }
 #Preview {
-    GeneratingNumbersView(viewModel: GeneratingNumbersViewModel()) // Certifique-se de ter um viewModel válido ou substitua com um mock
+    GeneratingNumbersView(viewModel: GeneratingNumbersViewModel())
 }

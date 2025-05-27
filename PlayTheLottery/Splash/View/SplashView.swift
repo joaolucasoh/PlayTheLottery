@@ -40,10 +40,6 @@ struct LoadingView: View {
                 .background(Color.white)
                 .ignoresSafeArea()
             
-            Text("It's time to play")
-                .foregroundColor(.green)
-                .font(Font.system(.title3).bold())
-                .padding(.top, 20)
             Text("Copyright @ Raven 🐦‍⬛")
                 .foregroundColor(Color.gray)
                 .font(Font.system(size: 16).bold())
