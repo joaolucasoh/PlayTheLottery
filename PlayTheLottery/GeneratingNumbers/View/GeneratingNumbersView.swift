@@ -8,6 +8,15 @@ struct GeneratingNumbersView: View {
     @State private var selectedGameType = ""
     @State private var selectedGameConfig: GameConfig?
     
+    // Novo estado para a quantidade de números da Mega-Sena
+    @State private var megaSenaNumbersAmount = 6
+    
+    // Novo estado para a quantidade de números da Lotofacil
+    @State private var lotofacilNumbersAmount = 15
+    
+    // Novo estado para a quantidade de números da Quina
+    @State private var quinaNumbersAmount = 5
+    
     @ObservedObject var viewModel: GeneratingNumbersViewModel
     
     struct GameConfig {
@@ -51,7 +60,19 @@ struct GeneratingNumbersView: View {
     
     func generateNumbersForSelectedGame() {
         guard let config = selectedGameConfig else { return }
-        let generatedNumbers = randomLottoNumberGenerator(total: config.totalNumbers, maxNumber: config.maxNumber)
+        // Seleciona a quantidade customizada baseada no jogo selecionado
+        let totalNumbersToGenerate: Int
+        switch config.name {
+        case "Mega-Sena":
+            totalNumbersToGenerate = megaSenaNumbersAmount
+        case "Lotofacil":
+            totalNumbersToGenerate = lotofacilNumbersAmount
+        case "Quina":
+            totalNumbersToGenerate = quinaNumbersAmount
+        default:
+            totalNumbersToGenerate = config.totalNumbers
+        }
+        let generatedNumbers = randomLottoNumberGenerator(total: totalNumbersToGenerate, maxNumber: config.maxNumber)
         alertMessage = setToString(set: generatedNumbers)
         selectedGameType = config.name
         isShareButtonEnabled = true
@@ -97,8 +118,9 @@ struct GeneratingNumbersView: View {
                                 .resizable()
                                 .scaledToFit()
                                 .frame(height: 80)
-                                .onTapGesture {  
+                                .onTapGesture {
                                     selectedGameConfig = config
+                                    // Sempre que abrir o modal para Mega-Sena, mantém o valor selecionado pelo usuário
                                     generateNumbersForSelectedGame()
                                     showCustomAlert = true
                                 }
@@ -110,7 +132,8 @@ struct GeneratingNumbersView: View {
                 }
                 
                 HStack(spacing: 20) {
-                    if Locale.current.regionCode == "BR" {
+                    // Botão "Apostar" só aparece se a região for BR e o jogo selecionado for Mega-Sena
+                    if Locale.current.regionCode == "BR" && selectedGameConfig?.name == "Mega-Sena" {
                         Button(action: {
                             if let url = URL(string: "loterias://caixa") {
                                 if UIApplication.shared.canOpenURL(url) {
@@ -141,6 +164,175 @@ struct GeneratingNumbersView: View {
                             .font(.title)
                             .bold()
                             .foregroundColor(.black)
+                        
+                        // Custom selector for Mega-Sena number amount replacing the old Stepper
+                        if selectedGameType == "Mega-Sena" {
+                            // Seletor customizado para Mega-Sena
+                            VStack(alignment: .leading, spacing: 8) {
+                                Text("Quantidade de números:")
+                                    .font(.headline)
+                                    .foregroundColor(Color(red: 0.22, green: 0.28, blue: 0.38))
+                                HStack(spacing: 16) {
+                                    Button(action: {
+                                        if megaSenaNumbersAmount > 6 {
+                                            megaSenaNumbersAmount -= 1
+                                        }
+                                    }) {
+                                        Text("-")
+                                            .font(.system(size: 28, weight: .bold))
+                                            .frame(width: 40, height: 40)
+                                            .foregroundColor(Color(red: 0.12, green: 0.43, blue: 0.74))
+                                            .background(Color.white)
+                                            .overlay(
+                                                RoundedRectangle(cornerRadius: 6)
+                                                    .stroke(Color(red: 0.12, green: 0.43, blue: 0.74), lineWidth: 1)
+                                            )
+                                    }
+                                    Text("\(megaSenaNumbersAmount)")
+                                        .font(.system(size: 28, weight: .semibold))
+                                        .foregroundColor(Color(red: 0.22, green: 0.28, blue: 0.38))
+                                        .frame(minWidth: 36)
+                                        .padding(.horizontal, 6)
+                                        .overlay(
+                                            Rectangle()
+                                                .frame(height: 2)
+                                                .foregroundColor(Color(red: 0.12, green: 0.43, blue: 0.74)),
+                                            alignment: .bottom
+                                        )
+                                    Button(action: {
+                                        if megaSenaNumbersAmount < 20 {
+                                            megaSenaNumbersAmount += 1
+                                        }
+                                    }) {
+                                        Text("+")
+                                            .font(.system(size: 28, weight: .bold))
+                                            .frame(width: 40, height: 40)
+                                            .foregroundColor(Color(red: 0.12, green: 0.43, blue: 0.74))
+                                            .background(Color.white)
+                                            .overlay(
+                                                RoundedRectangle(cornerRadius: 6)
+                                                    .stroke(Color(red: 0.12, green: 0.43, blue: 0.74), lineWidth: 1)
+                                            )
+                                    }
+                                }
+                                .padding(.bottom, 10)
+                            }
+                            .padding(.leading)
+                            .padding(.top, 6)
+                        }
+                        
+                        // Custom selector for Lotofacil number amount
+                        if selectedGameType == "Lotofacil" {
+                            // Seletor customizado para Lotofacil com intervalo 15 a 20
+                            VStack(alignment: .leading, spacing: 8) {
+                                Text("Quantidade de números:")
+                                    .font(.headline)
+                                    .foregroundColor(Color(red: 0.22, green: 0.28, blue: 0.38))
+                                HStack(spacing: 16) {
+                                    Button(action: {
+                                        if lotofacilNumbersAmount > 15 {
+                                            lotofacilNumbersAmount -= 1
+                                        }
+                                    }) {
+                                        Text("-")
+                                            .font(.system(size: 28, weight: .bold))
+                                            .frame(width: 40, height: 40)
+                                            .foregroundColor(Color(red: 0.12, green: 0.43, blue: 0.74))
+                                            .background(Color.white)
+                                            .overlay(
+                                                RoundedRectangle(cornerRadius: 6)
+                                                    .stroke(Color(red: 0.12, green: 0.43, blue: 0.74), lineWidth: 1)
+                                            )
+                                    }
+                                    Text("\(lotofacilNumbersAmount)")
+                                        .font(.system(size: 28, weight: .semibold))
+                                        .foregroundColor(Color(red: 0.22, green: 0.28, blue: 0.38))
+                                        .frame(minWidth: 36)
+                                        .padding(.horizontal, 6)
+                                        .overlay(
+                                            Rectangle()
+                                                .frame(height: 2)
+                                                .foregroundColor(Color(red: 0.12, green: 0.43, blue: 0.74)),
+                                            alignment: .bottom
+                                        )
+                                    Button(action: {
+                                        if lotofacilNumbersAmount < 20 {
+                                            lotofacilNumbersAmount += 1
+                                        }
+                                    }) {
+                                        Text("+")
+                                            .font(.system(size: 28, weight: .bold))
+                                            .frame(width: 40, height: 40)
+                                            .foregroundColor(Color(red: 0.12, green: 0.43, blue: 0.74))
+                                            .background(Color.white)
+                                            .overlay(
+                                                RoundedRectangle(cornerRadius: 6)
+                                                    .stroke(Color(red: 0.12, green: 0.43, blue: 0.74), lineWidth: 1)
+                                            )
+                                    }
+                                }
+                                .padding(.bottom, 10)
+                            }
+                            .padding(.leading)
+                            .padding(.top, 6)
+                        }
+                        
+                        // Custom selector for Quina number amount
+                        if selectedGameType == "Quina" {
+                            // Seletor customizado para Quina com intervalo 5 a 15
+                            VStack(alignment: .leading, spacing: 8) {
+                                Text("Quantidade de números:")
+                                    .font(.headline)
+                                    .foregroundColor(Color(red: 0.22, green: 0.28, blue: 0.38))
+                                HStack(spacing: 16) {
+                                    Button(action: {
+                                        if quinaNumbersAmount > 5 {
+                                            quinaNumbersAmount -= 1
+                                        }
+                                    }) {
+                                        Text("-")
+                                            .font(.system(size: 28, weight: .bold))
+                                            .frame(width: 40, height: 40)
+                                            .foregroundColor(Color(red: 0.12, green: 0.43, blue: 0.74))
+                                            .background(Color.white)
+                                            .overlay(
+                                                RoundedRectangle(cornerRadius: 6)
+                                                    .stroke(Color(red: 0.12, green: 0.43, blue: 0.74), lineWidth: 1)
+                                            )
+                                    }
+                                    Text("\(quinaNumbersAmount)")
+                                        .font(.system(size: 28, weight: .semibold))
+                                        .foregroundColor(Color(red: 0.22, green: 0.28, blue: 0.38))
+                                        .frame(minWidth: 36)
+                                        .padding(.horizontal, 6)
+                                        .overlay(
+                                            Rectangle()
+                                                .frame(height: 2)
+                                                .foregroundColor(Color(red: 0.12, green: 0.43, blue: 0.74)),
+                                            alignment: .bottom
+                                        )
+                                    Button(action: {
+                                        if quinaNumbersAmount < 15 {
+                                            quinaNumbersAmount += 1
+                                        }
+                                    }) {
+                                        Text("+")
+                                            .font(.system(size: 28, weight: .bold))
+                                            .frame(width: 40, height: 40)
+                                            .foregroundColor(Color(red: 0.12, green: 0.43, blue: 0.74))
+                                            .background(Color.white)
+                                            .overlay(
+                                                RoundedRectangle(cornerRadius: 6)
+                                                    .stroke(Color(red: 0.12, green: 0.43, blue: 0.74), lineWidth: 1)
+                                            )
+                                    }
+                                }
+                                .padding(.bottom, 10)
+                            }
+                            .padding(.leading)
+                            .padding(.top, 6)
+                        }
+                        
                         Text(alertMessage)
                             .font(.headline)
                             .multilineTextAlignment(.center)
@@ -196,3 +388,4 @@ struct GeneratingNumbersView: View {
 #Preview {
     GeneratingNumbersView(viewModel: GeneratingNumbersViewModel())
 }
+
