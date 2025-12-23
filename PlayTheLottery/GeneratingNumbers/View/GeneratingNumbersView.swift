@@ -177,7 +177,8 @@ struct GeneratingNumbersView: View {
                                         if megaSenaNumbersAmount > 6 {
                                             megaSenaNumbersAmount -= 1
                                         }
-                                    }) {
+                                    })
+                                    {
                                         Text("-")
                                             .font(.system(size: 28, weight: .bold))
                                             .frame(width: 40, height: 40)
@@ -187,6 +188,9 @@ struct GeneratingNumbersView: View {
                                                 RoundedRectangle(cornerRadius: 6)
                                                     .stroke(Color(red: 0.12, green: 0.43, blue: 0.74), lineWidth: 1)
                                             )
+                                            // Diminuir opacidade e desabilitar botão quando estiver no limite inferior (6)
+                                            .opacity(megaSenaNumbersAmount == 6 ? 0.3 : 1.0)
+                                            .disabled(megaSenaNumbersAmount == 6)
                                     }
                                     Text("\(megaSenaNumbersAmount)")
                                         .font(.system(size: 28, weight: .semibold))
@@ -213,6 +217,9 @@ struct GeneratingNumbersView: View {
                                                 RoundedRectangle(cornerRadius: 6)
                                                     .stroke(Color(red: 0.12, green: 0.43, blue: 0.74), lineWidth: 1)
                                             )
+                                            // Diminuir opacidade e desabilitar botão quando estiver no limite superior (20)
+                                            .opacity(megaSenaNumbersAmount == 20 ? 0.3 : 1.0)
+                                            .disabled(megaSenaNumbersAmount == 20)
                                     }
                                 }
                                 .padding(.bottom, 10)
@@ -243,6 +250,9 @@ struct GeneratingNumbersView: View {
                                                 RoundedRectangle(cornerRadius: 6)
                                                     .stroke(Color(red: 0.12, green: 0.43, blue: 0.74), lineWidth: 1)
                                             )
+                                            // Diminuir opacidade e desabilitar botão quando estiver no limite inferior (15)
+                                            .opacity(lotofacilNumbersAmount == 15 ? 0.3 : 1.0)
+                                            .disabled(lotofacilNumbersAmount == 15)
                                     }
                                     Text("\(lotofacilNumbersAmount)")
                                         .font(.system(size: 28, weight: .semibold))
@@ -269,6 +279,9 @@ struct GeneratingNumbersView: View {
                                                 RoundedRectangle(cornerRadius: 6)
                                                     .stroke(Color(red: 0.12, green: 0.43, blue: 0.74), lineWidth: 1)
                                             )
+                                            // Diminuir opacidade e desabilitar botão quando estiver no limite superior (20)
+                                            .opacity(lotofacilNumbersAmount == 20 ? 0.3 : 1.0)
+                                            .disabled(lotofacilNumbersAmount == 20)
                                     }
                                 }
                                 .padding(.bottom, 10)
@@ -299,6 +312,9 @@ struct GeneratingNumbersView: View {
                                                 RoundedRectangle(cornerRadius: 6)
                                                     .stroke(Color(red: 0.12, green: 0.43, blue: 0.74), lineWidth: 1)
                                             )
+                                            // Diminuir opacidade e desabilitar botão quando estiver no limite inferior (5)
+                                            .opacity(quinaNumbersAmount == 5 ? 0.3 : 1.0)
+                                            .disabled(quinaNumbersAmount == 5)
                                     }
                                     Text("\(quinaNumbersAmount)")
                                         .font(.system(size: 28, weight: .semibold))
@@ -325,6 +341,9 @@ struct GeneratingNumbersView: View {
                                                 RoundedRectangle(cornerRadius: 6)
                                                     .stroke(Color(red: 0.12, green: 0.43, blue: 0.74), lineWidth: 1)
                                             )
+                                            // Diminuir opacidade e desabilitar botão quando estiver no limite superior (15)
+                                            .opacity(quinaNumbersAmount == 15 ? 0.3 : 1.0)
+                                            .disabled(quinaNumbersAmount == 15)
                                     }
                                 }
                                 .padding(.bottom, 10)
