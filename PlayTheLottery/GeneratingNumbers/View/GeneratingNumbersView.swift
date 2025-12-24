@@ -181,10 +181,13 @@ struct GeneratingNumbersView: View {
                         // Custom selector for Mega-Sena number amount replacing the old Stepper
                         if selectedGameType == "Mega-Sena" {
                             // Seletor customizado para Mega-Sena
-                            VStack(alignment: .leading, spacing: 8) {
+                            VStack(alignment: .center, spacing: 8) {
                                 Text("Quantidade de números:")
                                     .font(.headline)
+                                    .dynamicTypeSize(.medium ... .accessibility3)
+                                    .minimumScaleFactor(0.7)
                                     .foregroundColor(Color(red: 0.22, green: 0.28, blue: 0.38))
+                                    .frame(maxWidth: .infinity, alignment: .center)
                                 HStack(spacing: 16) {
                                     Button(action: {
                                         if megaSenaNumbersAmount > 6 {
@@ -197,7 +200,7 @@ struct GeneratingNumbersView: View {
                                             .minimumScaleFactor(0.7)
                                             .lineLimit(1)
                                             .font(.system(size: 28, weight: .bold))
-                                            .frame(width: 40, height: 40)
+                                            .frame(width: 44, height: 44, alignment: .center)
                                             .foregroundColor(Color(red: 0.12, green: 0.43, blue: 0.74))
                                             .background(Color.white)
                                             .overlay(
@@ -213,6 +216,7 @@ struct GeneratingNumbersView: View {
                                         .minimumScaleFactor(0.7)
                                         .lineLimit(1)
                                         .font(.system(size: 28, weight: .semibold))
+                                        .frame(width: 44, height: 44, alignment: .center)
                                         .foregroundColor(Color(red: 0.22, green: 0.28, blue: 0.38))
                                         .frame(minWidth: 36)
                                         .padding(.horizontal, 6)
@@ -232,7 +236,7 @@ struct GeneratingNumbersView: View {
                                             .minimumScaleFactor(0.7)
                                             .lineLimit(1)
                                             .font(.system(size: 28, weight: .bold))
-                                            .frame(width: 40, height: 40)
+                                            .frame(width: 44, height: 44, alignment: .center)
                                             .foregroundColor(Color(red: 0.12, green: 0.43, blue: 0.74))
                                             .background(Color.white)
                                             .overlay(
@@ -244,19 +248,22 @@ struct GeneratingNumbersView: View {
                                             .disabled(megaSenaNumbersAmount == 20)
                                     }
                                 }
-                                .padding(.bottom, 10)
+                                .frame(maxWidth: .infinity, alignment: .center)
                             }
-                            .padding(.leading)
                             .padding(.top, 6)
+                            .padding(.bottom, 10)
                         }
                         
                         // Custom selector for Lotofacil number amount
                         if selectedGameType == "Lotofacil" {
                             // Seletor customizado para Lotofacil com intervalo 15 a 20
-                            VStack(alignment: .leading, spacing: 8) {
+                            VStack(alignment: .center, spacing: 8) {
                                 Text("Quantidade de números:")
                                     .font(.headline)
+                                    .dynamicTypeSize(.medium ... .accessibility3)
+                                    .minimumScaleFactor(0.7)
                                     .foregroundColor(Color(red: 0.22, green: 0.28, blue: 0.38))
+                                    .frame(maxWidth: .infinity, alignment: .center)
                                 HStack(spacing: 16) {
                                     Button(action: {
                                         if lotofacilNumbersAmount > 15 {
@@ -268,7 +275,7 @@ struct GeneratingNumbersView: View {
                                             .minimumScaleFactor(0.7)
                                             .lineLimit(1)
                                             .font(.system(size: 28, weight: .bold))
-                                            .frame(width: 40, height: 40)
+                                            .frame(width: 44, height: 44, alignment: .center)
                                             .foregroundColor(Color(red: 0.12, green: 0.43, blue: 0.74))
                                             .background(Color.white)
                                             .overlay(
@@ -284,6 +291,7 @@ struct GeneratingNumbersView: View {
                                         .minimumScaleFactor(0.7)
                                         .lineLimit(1)
                                         .font(.system(size: 28, weight: .semibold))
+                                        .frame(width: 44, height: 44, alignment: .center)
                                         .foregroundColor(Color(red: 0.22, green: 0.28, blue: 0.38))
                                         .frame(minWidth: 36)
                                         .padding(.horizontal, 6)
@@ -303,7 +311,7 @@ struct GeneratingNumbersView: View {
                                             .minimumScaleFactor(0.7)
                                             .lineLimit(1)
                                             .font(.system(size: 28, weight: .bold))
-                                            .frame(width: 40, height: 40)
+                                            .frame(width: 44, height: 44, alignment: .center)
                                             .foregroundColor(Color(red: 0.12, green: 0.43, blue: 0.74))
                                             .background(Color.white)
                                             .overlay(
@@ -315,19 +323,22 @@ struct GeneratingNumbersView: View {
                                             .disabled(lotofacilNumbersAmount == 20)
                                     }
                                 }
-                                .padding(.bottom, 10)
+                                .frame(maxWidth: .infinity, alignment: .center)
                             }
-                            .padding(.leading)
                             .padding(.top, 6)
+                            .padding(.bottom, 10)
                         }
                         
                         // Custom selector for Quina number amount
                         if selectedGameType == "Quina" {
                             // Seletor customizado para Quina com intervalo 5 a 15
-                            VStack(alignment: .leading, spacing: 8) {
+                            VStack(alignment: .center, spacing: 8) {
                                 Text("Quantidade de números:")
                                     .font(.headline)
+                                    .dynamicTypeSize(.medium ... .accessibility3)
+                                    .minimumScaleFactor(0.7)
                                     .foregroundColor(Color(red: 0.22, green: 0.28, blue: 0.38))
+                                    .frame(maxWidth: .infinity, alignment: .center)
                                 HStack(spacing: 16) {
                                     Button(action: {
                                         if quinaNumbersAmount > 5 {
@@ -339,7 +350,7 @@ struct GeneratingNumbersView: View {
                                             .minimumScaleFactor(0.7)
                                             .lineLimit(1)
                                             .font(.system(size: 28, weight: .bold))
-                                            .frame(width: 40, height: 40)
+                                            .frame(width: 44, height: 44, alignment: .center)
                                             .foregroundColor(Color(red: 0.12, green: 0.43, blue: 0.74))
                                             .background(Color.white)
                                             .overlay(
@@ -355,6 +366,7 @@ struct GeneratingNumbersView: View {
                                         .minimumScaleFactor(0.7)
                                         .lineLimit(1)
                                         .font(.system(size: 28, weight: .semibold))
+                                        .frame(width: 44, height: 44, alignment: .center)
                                         .foregroundColor(Color(red: 0.22, green: 0.28, blue: 0.38))
                                         .frame(minWidth: 36)
                                         .padding(.horizontal, 6)
@@ -374,7 +386,7 @@ struct GeneratingNumbersView: View {
                                             .minimumScaleFactor(0.7)
                                             .lineLimit(1)
                                             .font(.system(size: 28, weight: .bold))
-                                            .frame(width: 40, height: 40)
+                                            .frame(width: 44, height: 44, alignment: .center)
                                             .foregroundColor(Color(red: 0.12, green: 0.43, blue: 0.74))
                                             .background(Color.white)
                                             .overlay(
@@ -386,10 +398,10 @@ struct GeneratingNumbersView: View {
                                             .disabled(quinaNumbersAmount == 15)
                                     }
                                 }
-                                .padding(.bottom, 10)
+                                .frame(maxWidth: .infinity, alignment: .center)
                             }
-                            .padding(.leading)
                             .padding(.top, 6)
+                            .padding(.bottom, 10)
                         }
                         
                         Text(alertMessage)
