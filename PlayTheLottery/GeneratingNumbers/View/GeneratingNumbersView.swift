@@ -104,10 +104,12 @@ struct GeneratingNumbersView: View {
             VStack(spacing: 60) {
                 Text("Escolha para qual jogo deseja os números🤞🏽🍀")
                     .font(.title)
+                    .dynamicTypeSize(.medium ... .accessibility3)
                     .foregroundColor(Color.black)
                     .multilineTextAlignment(.center)
                     .frame(maxWidth: .infinity)
-                    .minimumScaleFactor(0.5)
+                    .minimumScaleFactor(0.7)
+                    .lineLimit(3)
                     .padding(.vertical, 20)
                     .padding(.horizontal, 20)
                 
@@ -125,6 +127,9 @@ struct GeneratingNumbersView: View {
                                     showCustomAlert = true
                                 }
                             Text(config.name)
+                                .dynamicTypeSize(.medium ... .accessibility3)
+                                .minimumScaleFactor(0.7)
+                                .lineLimit(1)
                                 .frame(maxWidth: .infinity, alignment: .center)
                                 .foregroundColor(Color.black)
                         }
@@ -146,6 +151,9 @@ struct GeneratingNumbersView: View {
                             }
                         }) {
                             Text("Apostar")
+                                .dynamicTypeSize(.medium ... .accessibility3)
+                                .minimumScaleFactor(0.7)
+                                .lineLimit(1)
                                 .font(.headline)
                                 .foregroundColor(.white)
                                 .frame(width: 120)
@@ -158,11 +166,16 @@ struct GeneratingNumbersView: View {
                 .sheet(isPresented: $showCustomAlert) {
                     VStack(spacing: 20) {
                         Text("Números gerados para ")
+                            .dynamicTypeSize(.medium ... .accessibility3)
+                            .minimumScaleFactor(0.7)
+                            .lineLimit(2)
                             .font(.title)
                             .foregroundColor(.black)
                         Text("\(selectedGameType):")
-                            .font(.title)
-                            .bold()
+                            .dynamicTypeSize(.medium ... .accessibility3)
+                            .minimumScaleFactor(0.7)
+                            .lineLimit(2)
+                            .font(.title.bold())
                             .foregroundColor(.black)
                         
                         // Custom selector for Mega-Sena number amount replacing the old Stepper
@@ -180,6 +193,9 @@ struct GeneratingNumbersView: View {
                                     })
                                     {
                                         Text("-")
+                                            .dynamicTypeSize(.medium ... .accessibility3)
+                                            .minimumScaleFactor(0.7)
+                                            .lineLimit(1)
                                             .font(.system(size: 28, weight: .bold))
                                             .frame(width: 40, height: 40)
                                             .foregroundColor(Color(red: 0.12, green: 0.43, blue: 0.74))
@@ -193,6 +209,9 @@ struct GeneratingNumbersView: View {
                                             .disabled(megaSenaNumbersAmount == 6)
                                     }
                                     Text("\(megaSenaNumbersAmount)")
+                                        .dynamicTypeSize(.medium ... .accessibility3)
+                                        .minimumScaleFactor(0.7)
+                                        .lineLimit(1)
                                         .font(.system(size: 28, weight: .semibold))
                                         .foregroundColor(Color(red: 0.22, green: 0.28, blue: 0.38))
                                         .frame(minWidth: 36)
@@ -209,6 +228,9 @@ struct GeneratingNumbersView: View {
                                         }
                                     }) {
                                         Text("+")
+                                            .dynamicTypeSize(.medium ... .accessibility3)
+                                            .minimumScaleFactor(0.7)
+                                            .lineLimit(1)
                                             .font(.system(size: 28, weight: .bold))
                                             .frame(width: 40, height: 40)
                                             .foregroundColor(Color(red: 0.12, green: 0.43, blue: 0.74))
@@ -242,6 +264,9 @@ struct GeneratingNumbersView: View {
                                         }
                                     }) {
                                         Text("-")
+                                            .dynamicTypeSize(.medium ... .accessibility3)
+                                            .minimumScaleFactor(0.7)
+                                            .lineLimit(1)
                                             .font(.system(size: 28, weight: .bold))
                                             .frame(width: 40, height: 40)
                                             .foregroundColor(Color(red: 0.12, green: 0.43, blue: 0.74))
@@ -255,6 +280,9 @@ struct GeneratingNumbersView: View {
                                             .disabled(lotofacilNumbersAmount == 15)
                                     }
                                     Text("\(lotofacilNumbersAmount)")
+                                        .dynamicTypeSize(.medium ... .accessibility3)
+                                        .minimumScaleFactor(0.7)
+                                        .lineLimit(1)
                                         .font(.system(size: 28, weight: .semibold))
                                         .foregroundColor(Color(red: 0.22, green: 0.28, blue: 0.38))
                                         .frame(minWidth: 36)
@@ -271,6 +299,9 @@ struct GeneratingNumbersView: View {
                                         }
                                     }) {
                                         Text("+")
+                                            .dynamicTypeSize(.medium ... .accessibility3)
+                                            .minimumScaleFactor(0.7)
+                                            .lineLimit(1)
                                             .font(.system(size: 28, weight: .bold))
                                             .frame(width: 40, height: 40)
                                             .foregroundColor(Color(red: 0.12, green: 0.43, blue: 0.74))
@@ -304,6 +335,9 @@ struct GeneratingNumbersView: View {
                                         }
                                     }) {
                                         Text("-")
+                                            .dynamicTypeSize(.medium ... .accessibility3)
+                                            .minimumScaleFactor(0.7)
+                                            .lineLimit(1)
                                             .font(.system(size: 28, weight: .bold))
                                             .frame(width: 40, height: 40)
                                             .foregroundColor(Color(red: 0.12, green: 0.43, blue: 0.74))
@@ -317,6 +351,9 @@ struct GeneratingNumbersView: View {
                                             .disabled(quinaNumbersAmount == 5)
                                     }
                                     Text("\(quinaNumbersAmount)")
+                                        .dynamicTypeSize(.medium ... .accessibility3)
+                                        .minimumScaleFactor(0.7)
+                                        .lineLimit(1)
                                         .font(.system(size: 28, weight: .semibold))
                                         .foregroundColor(Color(red: 0.22, green: 0.28, blue: 0.38))
                                         .frame(minWidth: 36)
@@ -333,6 +370,9 @@ struct GeneratingNumbersView: View {
                                         }
                                     }) {
                                         Text("+")
+                                            .dynamicTypeSize(.medium ... .accessibility3)
+                                            .minimumScaleFactor(0.7)
+                                            .lineLimit(1)
                                             .font(.system(size: 28, weight: .bold))
                                             .frame(width: 40, height: 40)
                                             .foregroundColor(Color(red: 0.12, green: 0.43, blue: 0.74))
@@ -364,6 +404,9 @@ struct GeneratingNumbersView: View {
                             Button("Gerar") {
                                 generateNumbersForSelectedGame()
                             }
+                            .dynamicTypeSize(.medium ... .accessibility3)
+                            .minimumScaleFactor(0.7)
+                            .lineLimit(1)
                             .padding()
                             .background(Color.blue)
                             .foregroundColor(.white)
@@ -374,6 +417,9 @@ struct GeneratingNumbersView: View {
                                 Button("Compartilhar") {
                                     shareViaWhatsApp(gameType: selectedGameType, message: alertMessage)
                                 }
+                                .dynamicTypeSize(.medium ... .accessibility3)
+                                .minimumScaleFactor(0.7)
+                                .lineLimit(1)
                                 .padding()
                                 .background(Color.green)
                                 .foregroundColor(.white)
@@ -384,6 +430,9 @@ struct GeneratingNumbersView: View {
                             Button("Voltar") {
                                 showCustomAlert = false
                             }
+                            .dynamicTypeSize(.medium ... .accessibility3)
+                            .minimumScaleFactor(0.7)
+                            .lineLimit(1)
                             .padding()
                             .background(Color.gray)
                             .foregroundColor(.white)
