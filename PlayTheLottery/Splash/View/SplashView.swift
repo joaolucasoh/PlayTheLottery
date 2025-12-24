@@ -30,11 +30,15 @@ struct SplashView: View {
 }
 
 struct LoadingView: View {
+    @State private var slideIn = false
     var body: some View {
         ZStack(alignment: .center) {
             Image("banner")
                 .resizable()
                 .scaledToFit()
+                .offset(y: slideIn ? 0 : 12)
+                .opacity(slideIn ? 1 : 0)
+                .animation(.spring(response: 0.6, dampingFraction: 0.85), value: slideIn)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .padding(.horizontal, 1)
                 .background(Color.white)
@@ -45,6 +49,7 @@ struct LoadingView: View {
                 .font(Font.system(size: 16).bold())
                 .padding(.top, 600)
         }
+        .onAppear { slideIn = true }
     }
 }
 

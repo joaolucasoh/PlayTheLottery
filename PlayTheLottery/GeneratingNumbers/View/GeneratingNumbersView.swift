@@ -13,6 +13,7 @@ struct GeneratingNumbersView: View {
     @State private var isShareButtonEnabled = false
     @State private var selectedGameType = ""
     @State private var selectedGameConfig: GameConfig?
+    @State private var highlightedItem: String? = nil
     
     // Novo estado para a quantidade de números da Mega-Sena
     @State private var megaSenaNumbersAmount = 6
@@ -45,6 +46,21 @@ struct GeneratingNumbersView: View {
         GameConfig(name: "Quina", totalNumbers: 5, maxNumber: 80),
         GameConfig(name: "Lotomania", totalNumbers: 50, maxNumber: 100)
     ]
+    
+    func colorForGame(_ name: String) -> Color {
+        switch name {
+        case "Mega-Sena":
+            return Color.green
+        case "Lotofacil":
+            return Color.purple
+        case "Quina":
+            return Color.blue
+        case "Lotomania":
+            return Color.orange
+        default:
+            return Color.gray
+        }
+    }
     
     func generateNumbersForSelectedGame() {
         guard let config = selectedGameConfig else { return }
@@ -107,13 +123,9 @@ struct GeneratingNumbersView: View {
                             Image("\(config.name.lowercased())-button")
                                 .resizable()
                                 .scaledToFit()
-                                .frame(height: 80)
-                                .onTapGesture {
-                                    selectedGameConfig = config
-                                    // Sempre que abrir o modal para Mega-Sena, mantém o valor selecionado pelo usuário
-                                    generateNumbersForSelectedGame()
-                                    showCustomAlert = true
-                                }
+                                .frame(maxHeight: .infinity)
+                                .padding(12)
+                            Spacer(minLength: 4)
                             Text(config.name)
                                 .dynamicTypeSize(.medium ... .accessibility3)
                                 .minimumScaleFactor(0.7)
@@ -121,6 +133,30 @@ struct GeneratingNumbersView: View {
                                 .frame(maxWidth: .infinity, alignment: .center)
                                 .foregroundColor(Color.black)
                         }
+                        .frame(maxWidth: .infinity)
+                        .aspectRatio(1, contentMode: .fit)
+                        .padding(8)
+                        .background(
+                            Group {
+                                if highlightedItem == config.name {
+                                    colorForGame(config.name).opacity(0.3)
+                                } else {
+                                    Color.clear
+                                }
+                            }
+                        )
+                        .cornerRadius(12)
+                        .contentShape(Rectangle())
+                        .onTapGesture {
+                            highlightedItem = config.name
+                            selectedGameConfig = config
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                generateNumbersForSelectedGame()
+                                showCustomAlert = true
+                                highlightedItem = nil
+                            }
+                        }
+                        .animation(.easeInOut(duration: 0.15), value: highlightedItem)
                     }
                 }
                 
@@ -233,6 +269,9 @@ struct GeneratingNumbersView: View {
                         if alertMessage.isEmpty {
                             generateNumbersForSelectedGame()
                         }
+                    }
+                    .onDisappear {
+                        highlightedItem = nil
                     }
                 }
             }
