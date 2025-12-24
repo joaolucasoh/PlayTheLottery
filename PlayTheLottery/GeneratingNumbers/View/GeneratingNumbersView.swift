@@ -14,6 +14,7 @@ struct GeneratingNumbersView: View {
     @State private var selectedGameType = ""
     @State private var selectedGameConfig: GameConfig?
     @State private var highlightedItem: String? = nil
+    @State private var pressedItem: String? = nil
     
     // Novo estado para a quantidade de números da Mega-Sena
     @State private var megaSenaNumbersAmount = 6
@@ -135,58 +136,63 @@ struct GeneratingNumbersView: View {
                         }
                         .frame(maxWidth: .infinity)
                         .aspectRatio(1, contentMode: .fit)
+                        .scaleEffect(0.8)
                         .padding(8)
                         .background(
                             Group {
                                 if highlightedItem == config.name {
-                                    colorForGame(config.name).opacity(0.3)
+                                    colorForGame(config.name).opacity(0.15)
                                 } else {
                                     Color.clear
                                 }
                             }
                         )
                         .cornerRadius(12)
+                        .scaleEffect(pressedItem == config.name ? 0.96 : 1.0)
+                        .animation(.interpolatingSpring(stiffness: 280, damping: 8), value: pressedItem)
                         .contentShape(Rectangle())
                         .onTapGesture {
+                            pressedItem = config.name
                             highlightedItem = config.name
                             selectedGameConfig = config
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
                                 generateNumbersForSelectedGame()
                                 showCustomAlert = true
                                 highlightedItem = nil
+                                pressedItem = nil
                             }
                         }
                         .animation(.easeInOut(duration: 0.15), value: highlightedItem)
                     }
                 }
                 
-                HStack(spacing: 20) {
-                    // Botão "Apostar" só aparece se a região for BR e o jogo selecionado for Mega-Sena
-                    if Locale.current.regionCode == "BR" && selectedGameConfig?.name == "Mega-Sena" {
-                        Button(action: {
-                            if let url = URL(string: "loterias://caixa") {
-                                if UIApplication.shared.canOpenURL(url) {
-                                    UIApplication.shared.open(url)
-                                } else {
-                                    if let appStoreUrl = URL(string: "https://apps.apple.com/br/app/loterias-caixa/id1436530324?l=en-GB") {
-                                        UIApplication.shared.open(appStoreUrl)
-                                    }
-                                }
-                            }
-                        }) {
-                            Text("Apostar")
-                                .dynamicTypeSize(.medium ... .accessibility3)
-                                .minimumScaleFactor(0.7)
-                                .lineLimit(1)
-                                .font(.headline)
-                                .foregroundColor(.white)
-                                .frame(width: 120)
-                                .padding()
-                                .background(Color.blue)
-                                .cornerRadius(10)
-                        }
-                    }
-                }
+//                HStack(spacing: 20) {
+//                    // Botão "Apostar" só aparece se a região for BR e o jogo selecionado for Mega-Sena
+//                    if Locale.current.regionCode == "BR" {
+//                        Button(action: {
+//                            if let url = URL(string: "loterias://caixa") {
+//                                if UIApplication.shared.canOpenURL(url) {
+//                                    UIApplication.shared.open(url)
+//                                } else {
+//                                    if let appStoreUrl = URL(string: "https://apps.apple.com/br/app/loterias-caixa/id1436530324?l=en-GB") {
+//                                        UIApplication.shared.open(appStoreUrl)
+//                                    }
+//                                }
+//                            }
+//                        }) {
+//                            Text("Apostar")
+//                                .dynamicTypeSize(.medium ... .accessibility3)
+//                                .minimumScaleFactor(0.7)
+//                                .lineLimit(1)
+//                                .font(.headline)
+//                                .foregroundColor(.white)
+//                                .frame(width: 120)
+//                                .padding()
+//                                .background(Color.blue)
+//                                .cornerRadius(10)
+//                        }
+//                    }
+//                }
                 .sheet(isPresented: $showCustomAlert) {
                     VStack(spacing: 20) {
                         Text("Números gerados para ")
