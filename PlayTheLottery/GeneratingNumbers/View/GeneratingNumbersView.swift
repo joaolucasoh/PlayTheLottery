@@ -1,5 +1,68 @@
 import SwiftUI
 
+// Inline balls components to avoid missing-type errors
+private struct InlineBallsRowView: View {
+    let numbers: [Int]
+    var size: CGFloat = 36
+    var spacing: CGFloat = 8
+    var lineSpacing: CGFloat = 8
+
+    init(numbers: [Int], size: CGFloat = 36, spacing: CGFloat = 8, lineSpacing: CGFloat = 8) {
+        self.numbers = numbers
+        self.size = size
+        self.spacing = spacing
+        self.lineSpacing = lineSpacing
+    }
+
+    init(numbersString: String, separator: String = "🍀", size: CGFloat = 36, spacing: CGFloat = 8, lineSpacing: CGFloat = 8) {
+        let parts = numbersString
+            .components(separatedBy: separator)
+            .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+        let ints = parts.compactMap { Int($0) }
+        self.init(numbers: ints, size: size, spacing: spacing, lineSpacing: lineSpacing)
+    }
+
+    var body: some View {
+        // Threshold: for small sets, render in a single centered row
+        let smallSetThreshold = 8
+        if numbers.count <= smallSetThreshold {
+            HStack(spacing: spacing) {
+                ForEach(numbers.indices, id: \.self) { idx in
+                    InlineBallImage(number: numbers[idx], size: size)
+                }
+            }
+            .frame(maxWidth: .infinity)
+            .multilineTextAlignment(.center)
+        } else {
+            let minItem = size
+            let columns = [GridItem(.adaptive(minimum: minItem), spacing: spacing)]
+            HStack {
+                Spacer(minLength: 0)
+                LazyVGrid(columns: columns, alignment: .center, spacing: lineSpacing) {
+                    ForEach(numbers.indices, id: \.self) { idx in
+                        InlineBallImage(number: numbers[idx], size: size)
+                    }
+                }
+                .frame(maxWidth: .infinity)
+                Spacer(minLength: 0)
+            }
+        }
+    }
+}
+
+private struct InlineBallImage: View {
+    let number: Int
+    var size: CGFloat
+
+    var body: some View {
+        Image("ball_\(number)")
+            .resizable()
+            .scaledToFit()
+            .frame(width: size, height: size)
+            .accessibilityLabel(Text("Número \(number)"))
+    }
+}
+
 struct GeneratingNumbersView: View {
     
     @StateObject var viewModel: GeneratingNumbersViewModel
@@ -220,11 +283,8 @@ struct GeneratingNumbersView: View {
                             NumberAmountSelector(label: "Quantidade de números:", value: $quinaNumbersAmount, range: 5...15)
                         }
                         
-                        Text(alertMessage)
-                            .font(.headline)
-                            .multilineTextAlignment(.center)
-                            .padding()
-                            .foregroundColor(.black)
+                        InlineBallsRowView(numbersString: alertMessage, size: 44, spacing: 8, lineSpacing: 10)
+                            .padding(.horizontal)
                     }
                     
                     VStack {

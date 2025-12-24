@@ -18,6 +18,7 @@
 		C5506E752B8D9B9D00CB5F6D /* PlayTheLotteryApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayTheLotteryApp.swift; sourceTree = "<group>"; };
 		C5506E792B8D9B9F00CB5F6D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C5506E7C2B8D9B9F00CB5F6D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		C588DB2C2EFC5F35001B5807 /* BallsRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BallsRowView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -42,6 +43,7 @@
 				C53EA6732C94749D00C15FD3 /* Info.plist */,
 				C5506E742B8D9B9D00CB5F6D /* PlayTheLottery */,
 				C5506E732B8D9B9D00CB5F6D /* Products */,
+				C588DB2C2EFC5F35001B5807 /* BallsRowView.swift */,
 			);
 			sourceTree = "<group>";
 		};
@@ -286,7 +288,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"PlayTheLottery/Preview Content\"";
 				DEVELOPMENT_TEAM = 9AL49429D7;
 				ENABLE_PREVIEWS = YES;
@@ -307,7 +309,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.joaolucas.PlayTheLottery;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -326,7 +328,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"PlayTheLottery/Preview Content\"";
 				DEVELOPMENT_TEAM = 9AL49429D7;
 				ENABLE_PREVIEWS = YES;
@@ -347,7 +349,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.joaolucas.PlayTheLottery;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
