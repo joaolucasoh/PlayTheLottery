@@ -2,6 +2,12 @@ import SwiftUI
 
 struct GeneratingNumbersView: View {
     
+    @StateObject var viewModel: GeneratingNumbersViewModel
+    
+    init(viewModel: GeneratingNumbersViewModel = GeneratingNumbersViewModel()) {
+        _viewModel = StateObject(wrappedValue: viewModel)
+    }
+    
     @State private var alertMessage = ""
     @State private var showCustomAlert = false
     @State private var isShareButtonEnabled = false
@@ -17,12 +23,20 @@ struct GeneratingNumbersView: View {
     // Novo estado para a quantidade de números da Quina
     @State private var quinaNumbersAmount = 5
     
-    @ObservedObject var viewModel: GeneratingNumbersViewModel
-    
     struct GameConfig {
         let name: String
         let totalNumbers: Int
         let maxNumber: Int
+    }
+    
+    func randomLottoNumberGenerator(total: Int, maxNumber: Int) -> [String] {
+        var numbers: Set<Int> = []
+        while numbers.count < total {
+            let randomNumber = Int.random(in: 1...maxNumber)
+            numbers.insert(randomNumber)
+        }
+        let sortedNumbers = numbers.sorted()
+        return sortedNumbers.map { String(format: "%02d", $0) }
     }
     
     let gameConfigs = [
@@ -31,32 +45,6 @@ struct GeneratingNumbersView: View {
         GameConfig(name: "Quina", totalNumbers: 5, maxNumber: 80),
         GameConfig(name: "Lotomania", totalNumbers: 50, maxNumber: 100)
     ]
-    
-    func randomLottoNumberGenerator(total: Int, maxNumber: Int) -> [String] {
-        var numbers = total
-        var result: Set<String> = []
-        
-        while numbers > 0 {
-            let generated = Int.random(in: 1...maxNumber)
-            
-            let numberToAdd = (generated == 100) ? "00" : String(format: "%02d", generated)
-
-            
-            let res = result.insert(numberToAdd)
-            if res.inserted {
-                numbers -= 1
-            }
-        }
-        
-        //order the generated numbers
-        var sortedResult = result.sorted()
-        
-        //move "00" to the last position when its generated
-        if let index = sortedResult.firstIndex(of: "00") {
-            sortedResult.append(sortedResult.remove(at: index))
-        }
-        return sortedResult
-    }
     
     func generateNumbersForSelectedGame() {
         guard let config = selectedGameConfig else { return }
@@ -178,230 +166,16 @@ struct GeneratingNumbersView: View {
                             .font(.title.bold())
                             .foregroundColor(.black)
                         
-                        // Custom selector for Mega-Sena number amount replacing the old Stepper
                         if selectedGameType == "Mega-Sena" {
-                            // Seletor customizado para Mega-Sena
-                            VStack(alignment: .center, spacing: 8) {
-                                Text("Quantidade de números:")
-                                    .font(.headline)
-                                    .dynamicTypeSize(.medium ... .accessibility3)
-                                    .minimumScaleFactor(0.7)
-                                    .foregroundColor(Color(red: 0.22, green: 0.28, blue: 0.38))
-                                    .frame(maxWidth: .infinity, alignment: .center)
-                                HStack(spacing: 16) {
-                                    Button(action: {
-                                        if megaSenaNumbersAmount > 6 {
-                                            megaSenaNumbersAmount -= 1
-                                        }
-                                    })
-                                    {
-                                        Text("-")
-                                            .dynamicTypeSize(.medium ... .accessibility3)
-                                            .minimumScaleFactor(0.7)
-                                            .lineLimit(1)
-                                            .font(.system(size: 28, weight: .bold))
-                                            .frame(width: 44, height: 44, alignment: .center)
-                                            .foregroundColor(Color(red: 0.12, green: 0.43, blue: 0.74))
-                                            .background(Color.white)
-                                            .overlay(
-                                                RoundedRectangle(cornerRadius: 6)
-                                                    .stroke(Color(red: 0.12, green: 0.43, blue: 0.74), lineWidth: 1)
-                                            )
-                                            // Diminuir opacidade e desabilitar botão quando estiver no limite inferior (6)
-                                            .opacity(megaSenaNumbersAmount == 6 ? 0.3 : 1.0)
-                                            .disabled(megaSenaNumbersAmount == 6)
-                                    }
-                                    Text("\(megaSenaNumbersAmount)")
-                                        .dynamicTypeSize(.medium ... .accessibility3)
-                                        .minimumScaleFactor(0.7)
-                                        .lineLimit(1)
-                                        .font(.system(size: 28, weight: .semibold))
-                                        .frame(width: 44, height: 44, alignment: .center)
-                                        .foregroundColor(Color(red: 0.22, green: 0.28, blue: 0.38))
-                                        .frame(minWidth: 36)
-                                        .padding(.horizontal, 6)
-                                        .overlay(
-                                            Rectangle()
-                                                .frame(height: 2)
-                                                .foregroundColor(Color(red: 0.12, green: 0.43, blue: 0.74)),
-                                            alignment: .bottom
-                                        )
-                                    Button(action: {
-                                        if megaSenaNumbersAmount < 20 {
-                                            megaSenaNumbersAmount += 1
-                                        }
-                                    }) {
-                                        Text("+")
-                                            .dynamicTypeSize(.medium ... .accessibility3)
-                                            .minimumScaleFactor(0.7)
-                                            .lineLimit(1)
-                                            .font(.system(size: 28, weight: .bold))
-                                            .frame(width: 44, height: 44, alignment: .center)
-                                            .foregroundColor(Color(red: 0.12, green: 0.43, blue: 0.74))
-                                            .background(Color.white)
-                                            .overlay(
-                                                RoundedRectangle(cornerRadius: 6)
-                                                    .stroke(Color(red: 0.12, green: 0.43, blue: 0.74), lineWidth: 1)
-                                            )
-                                            // Diminuir opacidade e desabilitar botão quando estiver no limite superior (20)
-                                            .opacity(megaSenaNumbersAmount == 20 ? 0.3 : 1.0)
-                                            .disabled(megaSenaNumbersAmount == 20)
-                                    }
-                                }
-                                .frame(maxWidth: .infinity, alignment: .center)
-                            }
-                            .padding(.top, 6)
-                            .padding(.bottom, 10)
+                            NumberAmountSelector(label: "Quantidade de números:", value: $megaSenaNumbersAmount, range: 6...20)
                         }
                         
-                        // Custom selector for Lotofacil number amount
                         if selectedGameType == "Lotofacil" {
-                            // Seletor customizado para Lotofacil com intervalo 15 a 20
-                            VStack(alignment: .center, spacing: 8) {
-                                Text("Quantidade de números:")
-                                    .font(.headline)
-                                    .dynamicTypeSize(.medium ... .accessibility3)
-                                    .minimumScaleFactor(0.7)
-                                    .foregroundColor(Color(red: 0.22, green: 0.28, blue: 0.38))
-                                    .frame(maxWidth: .infinity, alignment: .center)
-                                HStack(spacing: 16) {
-                                    Button(action: {
-                                        if lotofacilNumbersAmount > 15 {
-                                            lotofacilNumbersAmount -= 1
-                                        }
-                                    }) {
-                                        Text("-")
-                                            .dynamicTypeSize(.medium ... .accessibility3)
-                                            .minimumScaleFactor(0.7)
-                                            .lineLimit(1)
-                                            .font(.system(size: 28, weight: .bold))
-                                            .frame(width: 44, height: 44, alignment: .center)
-                                            .foregroundColor(Color(red: 0.12, green: 0.43, blue: 0.74))
-                                            .background(Color.white)
-                                            .overlay(
-                                                RoundedRectangle(cornerRadius: 6)
-                                                    .stroke(Color(red: 0.12, green: 0.43, blue: 0.74), lineWidth: 1)
-                                            )
-                                            // Diminuir opacidade e desabilitar botão quando estiver no limite inferior (15)
-                                            .opacity(lotofacilNumbersAmount == 15 ? 0.3 : 1.0)
-                                            .disabled(lotofacilNumbersAmount == 15)
-                                    }
-                                    Text("\(lotofacilNumbersAmount)")
-                                        .dynamicTypeSize(.medium ... .accessibility3)
-                                        .minimumScaleFactor(0.7)
-                                        .lineLimit(1)
-                                        .font(.system(size: 28, weight: .semibold))
-                                        .frame(width: 44, height: 44, alignment: .center)
-                                        .foregroundColor(Color(red: 0.22, green: 0.28, blue: 0.38))
-                                        .frame(minWidth: 36)
-                                        .padding(.horizontal, 6)
-                                        .overlay(
-                                            Rectangle()
-                                                .frame(height: 2)
-                                                .foregroundColor(Color(red: 0.12, green: 0.43, blue: 0.74)),
-                                            alignment: .bottom
-                                        )
-                                    Button(action: {
-                                        if lotofacilNumbersAmount < 20 {
-                                            lotofacilNumbersAmount += 1
-                                        }
-                                    }) {
-                                        Text("+")
-                                            .dynamicTypeSize(.medium ... .accessibility3)
-                                            .minimumScaleFactor(0.7)
-                                            .lineLimit(1)
-                                            .font(.system(size: 28, weight: .bold))
-                                            .frame(width: 44, height: 44, alignment: .center)
-                                            .foregroundColor(Color(red: 0.12, green: 0.43, blue: 0.74))
-                                            .background(Color.white)
-                                            .overlay(
-                                                RoundedRectangle(cornerRadius: 6)
-                                                    .stroke(Color(red: 0.12, green: 0.43, blue: 0.74), lineWidth: 1)
-                                            )
-                                            // Diminuir opacidade e desabilitar botão quando estiver no limite superior (20)
-                                            .opacity(lotofacilNumbersAmount == 20 ? 0.3 : 1.0)
-                                            .disabled(lotofacilNumbersAmount == 20)
-                                    }
-                                }
-                                .frame(maxWidth: .infinity, alignment: .center)
-                            }
-                            .padding(.top, 6)
-                            .padding(.bottom, 10)
+                            NumberAmountSelector(label: "Quantidade de números:", value: $lotofacilNumbersAmount, range: 15...20)
                         }
                         
-                        // Custom selector for Quina number amount
                         if selectedGameType == "Quina" {
-                            // Seletor customizado para Quina com intervalo 5 a 15
-                            VStack(alignment: .center, spacing: 8) {
-                                Text("Quantidade de números:")
-                                    .font(.headline)
-                                    .dynamicTypeSize(.medium ... .accessibility3)
-                                    .minimumScaleFactor(0.7)
-                                    .foregroundColor(Color(red: 0.22, green: 0.28, blue: 0.38))
-                                    .frame(maxWidth: .infinity, alignment: .center)
-                                HStack(spacing: 16) {
-                                    Button(action: {
-                                        if quinaNumbersAmount > 5 {
-                                            quinaNumbersAmount -= 1
-                                        }
-                                    }) {
-                                        Text("-")
-                                            .dynamicTypeSize(.medium ... .accessibility3)
-                                            .minimumScaleFactor(0.7)
-                                            .lineLimit(1)
-                                            .font(.system(size: 28, weight: .bold))
-                                            .frame(width: 44, height: 44, alignment: .center)
-                                            .foregroundColor(Color(red: 0.12, green: 0.43, blue: 0.74))
-                                            .background(Color.white)
-                                            .overlay(
-                                                RoundedRectangle(cornerRadius: 6)
-                                                    .stroke(Color(red: 0.12, green: 0.43, blue: 0.74), lineWidth: 1)
-                                            )
-                                            // Diminuir opacidade e desabilitar botão quando estiver no limite inferior (5)
-                                            .opacity(quinaNumbersAmount == 5 ? 0.3 : 1.0)
-                                            .disabled(quinaNumbersAmount == 5)
-                                    }
-                                    Text("\(quinaNumbersAmount)")
-                                        .dynamicTypeSize(.medium ... .accessibility3)
-                                        .minimumScaleFactor(0.7)
-                                        .lineLimit(1)
-                                        .font(.system(size: 28, weight: .semibold))
-                                        .frame(width: 44, height: 44, alignment: .center)
-                                        .foregroundColor(Color(red: 0.22, green: 0.28, blue: 0.38))
-                                        .frame(minWidth: 36)
-                                        .padding(.horizontal, 6)
-                                        .overlay(
-                                            Rectangle()
-                                                .frame(height: 2)
-                                                .foregroundColor(Color(red: 0.12, green: 0.43, blue: 0.74)),
-                                            alignment: .bottom
-                                        )
-                                    Button(action: {
-                                        if quinaNumbersAmount < 15 {
-                                            quinaNumbersAmount += 1
-                                        }
-                                    }) {
-                                        Text("+")
-                                            .dynamicTypeSize(.medium ... .accessibility3)
-                                            .minimumScaleFactor(0.7)
-                                            .lineLimit(1)
-                                            .font(.system(size: 28, weight: .bold))
-                                            .frame(width: 44, height: 44, alignment: .center)
-                                            .foregroundColor(Color(red: 0.12, green: 0.43, blue: 0.74))
-                                            .background(Color.white)
-                                            .overlay(
-                                                RoundedRectangle(cornerRadius: 6)
-                                                    .stroke(Color(red: 0.12, green: 0.43, blue: 0.74), lineWidth: 1)
-                                            )
-                                            // Diminuir opacidade e desabilitar botão quando estiver no limite superior (15)
-                                            .opacity(quinaNumbersAmount == 15 ? 0.3 : 1.0)
-                                            .disabled(quinaNumbersAmount == 15)
-                                    }
-                                }
-                                .frame(maxWidth: .infinity, alignment: .center)
-                            }
-                            .padding(.top, 6)
-                            .padding(.bottom, 10)
+                            NumberAmountSelector(label: "Quantidade de números:", value: $quinaNumbersAmount, range: 5...15)
                         }
                         
                         Text(alertMessage)
@@ -465,6 +239,79 @@ struct GeneratingNumbersView: View {
         }
     }
 }
+
+struct NumberAmountSelector: View {
+    let label: String
+    @Binding var value: Int
+    let range: ClosedRange<Int>
+    var body: some View {
+        VStack(alignment: .center, spacing: 8) {
+            Text(label)
+                .font(.headline)
+                .dynamicTypeSize(.medium ... .accessibility3)
+                .minimumScaleFactor(0.7)
+                .foregroundColor(Color(red: 0.22, green: 0.28, blue: 0.38))
+                .frame(maxWidth: .infinity, alignment: .center)
+            HStack(spacing: 16) {
+                Button(action: {
+                    if value > range.lowerBound { value -= 1 }
+                }) {
+                    Text("-")
+                        .dynamicTypeSize(.medium ... .accessibility3)
+                        .minimumScaleFactor(0.7)
+                        .lineLimit(1)
+                        .font(.system(size: 28, weight: .bold))
+                        .frame(width: 44, height: 44, alignment: .center)
+                        .foregroundColor(Color(red: 0.12, green: 0.43, blue: 0.74))
+                        .background(Color.white)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 6)
+                                .stroke(Color(red: 0.12, green: 0.43, blue: 0.74), lineWidth: 1)
+                        )
+                        .opacity(value == range.lowerBound ? 0.3 : 1.0)
+                }
+                .disabled(value == range.lowerBound)
+                Text("\(value)")
+                    .dynamicTypeSize(.medium ... .accessibility3)
+                    .minimumScaleFactor(0.7)
+                    .lineLimit(1)
+                    .font(.system(size: 28, weight: .semibold))
+                    .frame(width: 44, height: 44, alignment: .center)
+                    .foregroundColor(Color(red: 0.22, green: 0.28, blue: 0.38))
+                    .frame(minWidth: 36)
+                    .padding(.horizontal, 6)
+                    .overlay(
+                        Rectangle()
+                            .frame(height: 2)
+                            .foregroundColor(Color(red: 0.12, green: 0.43, blue: 0.74)),
+                        alignment: .bottom
+                    )
+                Button(action: {
+                    if value < range.upperBound { value += 1 }
+                }) {
+                    Text("+")
+                        .dynamicTypeSize(.medium ... .accessibility3)
+                        .minimumScaleFactor(0.7)
+                        .lineLimit(1)
+                        .font(.system(size: 28, weight: .bold))
+                        .frame(width: 44, height: 44, alignment: .center)
+                        .foregroundColor(Color(red: 0.12, green: 0.43, blue: 0.74))
+                        .background(Color.white)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 6)
+                                .stroke(Color(red: 0.12, green: 0.43, blue: 0.74), lineWidth: 1)
+                        )
+                        .opacity(value == range.upperBound ? 0.3 : 1.0)
+                }
+                .disabled(value == range.upperBound)
+            }
+            .frame(maxWidth: .infinity, alignment: .center)
+        }
+        .padding(.top, 6)
+        .padding(.bottom, 10)
+    }
+}
+
 #Preview {
     GeneratingNumbersView(viewModel: GeneratingNumbersViewModel())
 }
