@@ -166,34 +166,38 @@ struct GeneratingNumbersView: View {
 
     var body: some View {
         ZStack {
-            Color.white
+            Image("background")
+                .resizable()
+                .scaledToFill()
                 .ignoresSafeArea()
+                .opacity(0.30)
             
             VStack(spacing: 60) {
                 Text("Escolha para qual jogo deseja os números🤞🏽🍀")
                     .font(.title.bold())
                     .dynamicTypeSize(.medium ... .accessibility3)
-                    .foregroundColor(Color.black)
+                    .foregroundColor(.black)
                     .multilineTextAlignment(.center)
-                    .frame(maxWidth: .infinity)
-                    .minimumScaleFactor(0.7)
-                    .lineLimit(3)
-                    .padding(.vertical, 20)
-                    .padding(.horizontal, 20)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .padding(.vertical, 0)
+                    .padding(.horizontal, 40)
                 
-                LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 30) {
+                LazyVGrid(columns: [
+                    GridItem(.flexible(minimum: 140)),
+                    GridItem(.flexible(minimum: 140))
+                ], spacing: 20) {
                     ForEach(gameConfigs, id: \.name) { config in
                         VStack {
                             Image("\(config.name.lowercased())-button")
                                 .resizable()
                                 .scaledToFit()
                                 .frame(maxHeight: .infinity)
-                                .padding(12)
+                                .padding(8)
                             Spacer(minLength: 4)
                             Text(config.name)
                                 .dynamicTypeSize(.medium ... .accessibility3)
                                 .lineLimit(2)
-                                .font(.title3)
+                                .font(.title3.bold())
                                 .multilineTextAlignment(.center)
                                 .frame(maxWidth: .infinity, alignment: .center)
                                 .foregroundColor(Color.black)
@@ -228,120 +232,97 @@ struct GeneratingNumbersView: View {
                         .animation(.easeInOut(duration: 0.15), value: highlightedItem)
                     }
                 }
-                
-//                HStack(spacing: 20) {
-//                    // Botão "Apostar" só aparece se a região for BR e o jogo selecionado for Mega-Sena
-//                    if Locale.current.regionCode == "BR" {
-//                        Button(action: {
-//                            if let url = URL(string: "loterias://caixa") {
-//                                if UIApplication.shared.canOpenURL(url) {
-//                                    UIApplication.shared.open(url)
-//                                } else {
-//                                    if let appStoreUrl = URL(string: "https://apps.apple.com/br/app/loterias-caixa/id1436530324?l=en-GB") {
-//                                        UIApplication.shared.open(appStoreUrl)
-//                                    }
-//                                }
-//                            }
-//                        }) {
-//                            Text("Apostar")
-//                                .dynamicTypeSize(.medium ... .accessibility3)
-//                                .minimumScaleFactor(0.7)
-//                                .lineLimit(1)
-//                                .font(.headline)
-//                                .foregroundColor(.white)
-//                                .frame(width: 120)
-//                                .padding()
-//                                .background(Color.blue)
-//                                .cornerRadius(10)
-//                        }
-//                    }
-//                }
-                .sheet(isPresented: $showCustomAlert) {
-                    VStack(spacing: 20) {
-                        Text("Números gerados para ")
-                            .dynamicTypeSize(.medium ... .accessibility3)
-                            .minimumScaleFactor(0.7)
-                            .lineLimit(2)
-                            .font(.title)
-                            .foregroundColor(.black)
-                        
-                        Text("\(selectedGameType):")
-                            .dynamicTypeSize(.medium ... .accessibility3)
-                            .minimumScaleFactor(0.7)
-                            .lineLimit(2)
-                            .font(.title.bold())
-                            .foregroundColor(.black)
-                        
-                        if selectedGameType == "Mega-Sena" {
-                            NumberAmountSelector(label: "Quantidade de números:", value: $megaSenaNumbersAmount, range: 6...20)
-                        }
-                        
-                        if selectedGameType == "Lotofacil" {
-                            NumberAmountSelector(label: "Quantidade de números:", value: $lotofacilNumbersAmount, range: 15...20)
-                        }
-                        
-                        if selectedGameType == "Quina" {
-                            NumberAmountSelector(label: "Quantidade de números:", value: $quinaNumbersAmount, range: 5...15)
-                        }
-                        
-                        InlineBallsRowView(numbersString: alertMessage, size: 44, spacing: 8, lineSpacing: 10)
-                            .padding(.horizontal)
+            }
+            .padding(.top, 24)
+            .padding(.horizontal, 16)
+            .sheet(isPresented: $showCustomAlert) {
+                VStack(spacing: 20) {
+                    Text("Números gerados para ")
+                        .dynamicTypeSize(.medium ... .accessibility3)
+                        .minimumScaleFactor(0.7)
+                        .lineLimit(2)
+                        .font(.title)
+                        .foregroundColor(.black)
+                    
+                    Text("\(selectedGameType):")
+                        .dynamicTypeSize(.medium ... .accessibility3)
+                        .minimumScaleFactor(0.7)
+                        .lineLimit(2)
+                        .font(.title.bold())
+                        .foregroundColor(.black)
+                    
+                    if selectedGameType == "Mega-Sena" {
+                        NumberAmountSelector(label: "Quantidade de números:", value: $megaSenaNumbersAmount, range: 6...20)
                     }
                     
-                    VStack {
-                        HStack {
-                            Button("Gerar") {
-                                generateNumbersForSelectedGame()
-                            }
-                            .dynamicTypeSize(.medium ... .accessibility3)
-                            .minimumScaleFactor(0.7)
-                            .lineLimit(1)
-                            .padding()
-                            .background(Color.blue)
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
-                            
-                            // ✅ Botão Compartilhar — só aparece se não for iPad
-                            if UIDevice.current.userInterfaceIdiom != .pad {
-                                Button("Compartilhar") {
-                                    shareViaWhatsApp(gameType: selectedGameType, message: alertMessage)
-                                }
-                                .dynamicTypeSize(.medium ... .accessibility3)
-                                .minimumScaleFactor(0.7)
-                                .lineLimit(1)
-                                .padding()
-                                .background(Color.green)
-                                .foregroundColor(.white)
-                                .cornerRadius(10)
-                                .disabled(!isShareButtonEnabled)
-                            }
-                            
-                            Button("Voltar") {
-                                showCustomAlert = false
-                            }
-                            .dynamicTypeSize(.medium ... .accessibility3)
-                            .minimumScaleFactor(0.7)
-                            .lineLimit(1)
-                            .padding()
-                            .background(Color.gray)
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
-                        }
-                        .padding()
+                    if selectedGameType == "Lotofacil" {
+                        NumberAmountSelector(label: "Quantidade de números:", value: $lotofacilNumbersAmount, range: 15...20)
                     }
-                    .padding()
-                    .background(Color.white)
-                    .preferredColorScheme(.light)
-                    .onAppear {
-                        if alertMessage.isEmpty {
+                    
+                    if selectedGameType == "Quina" {
+                        NumberAmountSelector(label: "Quantidade de números:", value: $quinaNumbersAmount, range: 5...15)
+                    }
+                    
+                    InlineBallsRowView(numbersString: alertMessage, size: 44, spacing: 8, lineSpacing: 10)
+                        .padding(.horizontal)
+                }
+                
+                VStack {
+                    HStack {
+                        Button("Gerar") {
                             generateNumbersForSelectedGame()
                         }
+                        .dynamicTypeSize(.medium ... .accessibility3)
+                        .minimumScaleFactor(0.7)
+                        .lineLimit(1)
+                        .padding()
+                        .background(Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                        
+                        // ✅ Botão Compartilhar — só aparece se não for iPad
+                        if UIDevice.current.userInterfaceIdiom != .pad {
+                            Button("Compartilhar") {
+                                shareViaWhatsApp(gameType: selectedGameType, message: alertMessage)
+                            }
+                            .dynamicTypeSize(.medium ... .accessibility3)
+                            .minimumScaleFactor(0.7)
+                            .lineLimit(1)
+                            .padding()
+                            .background(Color.green)
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                            .disabled(!isShareButtonEnabled)
+                        }
+                        
+                        Button("Voltar") {
+                            showCustomAlert = false
+                        }
+                        .dynamicTypeSize(.medium ... .accessibility3)
+                        .minimumScaleFactor(0.7)
+                        .lineLimit(1)
+                        .padding()
+                        .background(Color.gray)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
                     }
-                    .onDisappear {
-                        highlightedItem = nil
+                    .padding()
+                }
+                .padding()
+                .background(Color.white)
+                .preferredColorScheme(.light)
+                .onAppear {
+                    if alertMessage.isEmpty {
+                        generateNumbersForSelectedGame()
                     }
                 }
+                .onDisappear {
+                    highlightedItem = nil
+                }
             }
+        }
+        .safeAreaInset(edge: .top) {
+            Color.clear.frame(height: 28)
         }
     }
 }
