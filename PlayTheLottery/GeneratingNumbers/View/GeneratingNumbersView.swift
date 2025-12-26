@@ -208,7 +208,7 @@ struct GeneratingNumbersView: View {
                         .background(
                             Group {
                                 if highlightedItem == config.name {
-                                    colorForGame(config.name).opacity(0.15)
+                                    colorForGame(config.name).opacity(0.25)
                                 } else {
                                     Color.clear
                                 }
@@ -265,9 +265,7 @@ struct GeneratingNumbersView: View {
                     
                     InlineBallsRowView(numbersString: alertMessage, size: 44, spacing: 8, lineSpacing: 10)
                         .padding(.horizontal)
-                }
-                
-                VStack {
+                    
                     HStack {
                         Button("Gerar") {
                             generateNumbersForSelectedGame()
@@ -280,7 +278,6 @@ struct GeneratingNumbersView: View {
                         .foregroundColor(.white)
                         .cornerRadius(10)
                         
-                        // ✅ Botão Compartilhar — só aparece se não for iPad
                         if UIDevice.current.userInterfaceIdiom != .pad {
                             Button("Compartilhar") {
                                 shareViaWhatsApp(gameType: selectedGameType, message: alertMessage)
@@ -307,9 +304,12 @@ struct GeneratingNumbersView: View {
                         .cornerRadius(10)
                     }
                     .padding()
+                    .background(
+                        Color.white.opacity(0.9)
+                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                    )
                 }
                 .padding()
-                .background(Color.white)
                 .preferredColorScheme(.light)
                 .onAppear {
                     if alertMessage.isEmpty {
