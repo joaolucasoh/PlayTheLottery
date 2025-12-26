@@ -171,7 +171,7 @@ struct GeneratingNumbersView: View {
             
             VStack(spacing: 60) {
                 Text("Escolha para qual jogo deseja os números🤞🏽🍀")
-                    .font(.title)
+                    .font(.title.bold())
                     .dynamicTypeSize(.medium ... .accessibility3)
                     .foregroundColor(Color.black)
                     .multilineTextAlignment(.center)
@@ -192,14 +192,14 @@ struct GeneratingNumbersView: View {
                             Spacer(minLength: 4)
                             Text(config.name)
                                 .dynamicTypeSize(.medium ... .accessibility3)
-                                .minimumScaleFactor(0.7)
-                                .lineLimit(1)
+                                .lineLimit(2)
+                                .font(.title3)
+                                .multilineTextAlignment(.center)
                                 .frame(maxWidth: .infinity, alignment: .center)
                                 .foregroundColor(Color.black)
                         }
                         .frame(maxWidth: .infinity)
                         .aspectRatio(1, contentMode: .fit)
-                        .scaleEffect(0.8)
                         .padding(8)
                         .background(
                             Group {
@@ -264,6 +264,7 @@ struct GeneratingNumbersView: View {
                             .lineLimit(2)
                             .font(.title)
                             .foregroundColor(.black)
+                        
                         Text("\(selectedGameType):")
                             .dynamicTypeSize(.medium ... .accessibility3)
                             .minimumScaleFactor(0.7)
