@@ -17,7 +17,9 @@ struct SplashView: View {
             case .loading:
                 LoadingView()
             case .homeScreen:
-                Text("HomeScreen")
+                NavigationStack {
+                    MainMenuView()
+                }
             case .generateNumbers:
                 viewModel.generatingNumbersView()
             case .error(let msg):

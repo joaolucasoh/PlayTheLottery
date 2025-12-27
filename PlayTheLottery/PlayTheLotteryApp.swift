@@ -11,7 +11,7 @@ import SwiftUI
 struct PlayTheLotteryApp: App {
     var body: some Scene {
         WindowGroup {
-            MainMenuView()
+            SplashView(viewModel: SplashViewModel())
         }
     }
 }
