@@ -7,13 +7,26 @@ struct LotteryResult: Decodable, Identifiable {
     let numero: Int
     let listaDezenas: [String]?
     let acumulado: Bool
+    let dataApuracao: String
 
     enum CodingKeys: String, CodingKey {
         case tipoJogo
         case numero
         case listaDezenas
         case acumulado
+        case dataApuracao
     }
+
+    var dataApuracaoDate: Date? {
+        Self.dateFormatter.date(from: dataApuracao)
+    }
+
+    private static let dateFormatter: DateFormatter = {
+        let df = DateFormatter()
+        df.locale = Locale(identifier: "pt_BR")
+        df.dateFormat = "dd/MM/yyyy" // ajuste se a API retornar formato diferente
+        return df
+    }()
 }
 
 enum GameType: String, CaseIterable, Identifiable {

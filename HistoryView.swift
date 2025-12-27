@@ -114,58 +114,92 @@ private struct HistoryCard: View {
 
     var body: some View {
         HStack(alignment: .center, spacing: 16) {
-            if let game = gameType {
-                Image(game.logoAssetName)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 48, height: 48)
-                    .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
-            } else {
-                Image(systemName: "questionmark.circle")
-                    .font(.system(size: 28, weight: .regular))
-                    .frame(width: 48, height: 48)
-                    .foregroundColor(.white)
-                    .background(Color.gray)
-                    .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
-            }
-
-            VStack(alignment: .leading, spacing: 8) {
-                Text(gameType?.displayName ?? item.tipoJogo)
-                    .font(.headline)
-                    .foregroundColor(.black)
-                    .frame(maxWidth: .infinity, alignment: .center)
-
-                if let dezenas = item.listaDezenas, !dezenas.isEmpty {
-                    InlineBallsRowView(numbersString: dezenas.joined(separator: " 🍀 "))
-                } else {
-                    Text("Sem dezenas disponíveis")
-                        .font(.footnote)
-                        .foregroundColor(.black.opacity(0.6))
-                        .frame(maxWidth: .infinity, alignment: .center)
-                }
-
-                HStack(spacing: 12) {
-                    Text("Concurso: \(item.numero)")
-                        .font(.subheadline)
-                        .foregroundColor(.black.opacity(0.8))
-                    Text(item.acumulado ? "Acumulou: Sim" : "Acumulou: Não")
-                        .font(.subheadline.weight(.semibold))
-                        .foregroundColor(item.acumulado ? .green : .orange)
-                }
-            }
-
+            gameIcon
+            content
             Spacer()
         }
         .padding(16)
-        .background(
-            RoundedRectangle(cornerRadius: 16, style: .continuous)
-                .fill(Color.white.opacity(0.92))
-                .overlay(
-                    RoundedRectangle(cornerRadius: 16, style: .continuous)
-                        .stroke(Color.black.opacity(0.06), lineWidth: 1)
-                )
-                .shadow(color: Color.black.opacity(0.06), radius: 8, x: 0, y: 4)
-        )
+        .background(cardBackground)
+    }
+
+    @ViewBuilder
+    private var gameIcon: some View {
+        if let game = gameType {
+            Image(game.logoAssetName)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 48, height: 48)
+                .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+        } else {
+            Image(systemName: "questionmark.circle")
+                .font(.system(size: 28, weight: .regular))
+                .frame(width: 48, height: 48)
+                .foregroundColor(.white)
+                .background(Color.gray)
+                .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+        }
+    }
+
+    @ViewBuilder
+    private var content: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            titleSection
+            numbersSection
+            infoSection
+            dateSection
+        }
+    }
+
+    private var titleSection: some View {
+        Text(gameType?.displayName ?? item.tipoJogo)
+            .font(.headline)
+            .foregroundColor(.black)
+            .frame(maxWidth: .infinity, alignment: .center)
+    }
+
+    @ViewBuilder
+    private var numbersSection: some View {
+        if let dezenas = item.listaDezenas, !dezenas.isEmpty {
+            InlineBallsRowView(numbersString: dezenas.joined(separator: " 🍀 "))
+        } else {
+            Text("Sem dezenas disponíveis")
+                .font(.footnote)
+                .foregroundColor(.black.opacity(0.6))
+                .frame(maxWidth: .infinity, alignment: .center)
+        }
+    }
+
+    private var infoSection: some View {
+        HStack(spacing: 12) {
+            Text("Concurso: \(item.numero)")
+                .font(.subheadline)
+                .foregroundColor(.black.opacity(0.8))
+            Text(item.acumulado ? "Acumulou: Sim" : "Acumulou: Não")
+                .font(.subheadline.weight(.semibold))
+                .foregroundColor(item.acumulado ? .green : .orange)
+        }
+    }
+
+    private var dateSection: some View {
+        Group {
+            if let date = item.dataApuracaoDate {
+                Text("Data do sorteio: \(date.formatted(.sorteioPadrao))")
+                    .font(.subheadline)
+                    .foregroundColor(.black.opacity(0.8))
+            } else {
+                Text("Data do sorteio indisponível no momento.")
+            }
+        }
+    }
+
+    private var cardBackground: some View {
+        RoundedRectangle(cornerRadius: 16, style: .continuous)
+            .fill(Color.white.opacity(0.92))
+            .overlay(
+                RoundedRectangle(cornerRadius: 16, style: .continuous)
+                    .stroke(Color.black.opacity(0.06), lineWidth: 1)
+            )
+            .shadow(color: Color.black.opacity(0.06), radius: 8, x: 0, y: 4)
     }
 }
 

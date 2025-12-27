@@ -28,7 +28,8 @@ struct MainMenuView: View {
                         MenuCard(
                             title: "Gerador de Números",
                             subtitle: "Monte jogos rapidamente",
-                            systemImage: "sparkles"
+                            systemImage: "sparkles",
+                            date: nil
                         )
                     }
 
@@ -36,7 +37,8 @@ struct MainMenuView: View {
                         MenuCard(
                             title: "Histórico de Concursos",
                             subtitle: "Veja resultados anteriores",
-                            systemImage: "clock.arrow.circlepath"
+                            systemImage: "clock.arrow.circlepath",
+                            date: nil
                         )
                     }
                 }
@@ -71,6 +73,7 @@ private struct MenuCard: View {
     let title: String
     let subtitle: String
     let systemImage: String
+    let date: Date?
 
     var body: some View {
         HStack(spacing: 16) {
@@ -94,6 +97,11 @@ private struct MenuCard: View {
                 Text(subtitle)
                     .font(.subheadline)
                     .foregroundColor(.black.opacity(0.7))
+                if let date {
+                    Text("Data do sorteio: \(date.formatted(.sorteioPadrao))")
+                        .font(.caption)
+                        .foregroundColor(.black.opacity(0.6))
+                }
             }
             Spacer()
             Image(systemName: "chevron.right")
@@ -119,3 +127,14 @@ struct MainMenuView_Previews: PreviewProvider {
         MainMenuView()
     }
 }
+extension FormatStyle where Self == Date.FormatStyle {
+    static var sorteioPadrao: Self {
+        var style = Date.FormatStyle()
+        style.locale = Locale(identifier: "pt_BR")
+        return style
+            .day(.defaultDigits)
+            .month(.abbreviated)
+            .year(.defaultDigits)
+    }
+}
+
