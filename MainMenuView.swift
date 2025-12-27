@@ -41,6 +41,15 @@ struct MainMenuView: View {
                             date: nil
                         )
                     }
+
+                    NavigationLink(destination: NextContestsView()) {
+                        MenuCard(
+                            title: "Próximos concursos",
+                            subtitle: "Estimativas, datas e números",
+                            systemImage: "calendar.badge.clock",
+                            date: nil
+                        )
+                    }
                 }
                 .buttonStyle(.plain)
                 .frame(maxWidth: 560)

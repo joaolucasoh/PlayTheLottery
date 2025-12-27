@@ -310,11 +310,6 @@ struct GeneratingNumbersView: View {
                     content
                         .presentationDragIndicator(.hidden)
                         .presentationCornerRadius(0)
-                } else if #available(iOS 16.0, *) {
-                    content
-                        .presentationDragIndicator(.hidden)
-                } else {
-                    content
                 }
             }
         }

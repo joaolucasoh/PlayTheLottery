@@ -15,6 +15,7 @@
 		C588DB482EFF9081001B5807 /* HistoryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C588DB472EFF9081001B5807 /* HistoryService.swift */; };
 		C588DB4A2EFF908A001B5807 /* HistoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C588DB492EFF908A001B5807 /* HistoryViewModel.swift */; };
 		C588DB4C2EFF90EE001B5807 /* BallsViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = C588DB4B2EFF90EE001B5807 /* BallsViews.swift */; };
+		C588DBA62F004A05001B5807 /* NextContestsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C588DBA52F004A05001B5807 /* NextContestsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +30,7 @@
 		C588DB472EFF9081001B5807 /* HistoryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryService.swift; sourceTree = "<group>"; };
 		C588DB492EFF908A001B5807 /* HistoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewModel.swift; sourceTree = "<group>"; };
 		C588DB4B2EFF90EE001B5807 /* BallsViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BallsViews.swift; sourceTree = "<group>"; };
+		C588DBA52F004A05001B5807 /* NextContestsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextContestsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -57,6 +59,7 @@
 				C588DB432EFF8435001B5807 /* MainMenuView.swift */,
 				C588DB442EFF8438001B5807 /* HistoryView.swift */,
 				C588DB4B2EFF90EE001B5807 /* BallsViews.swift */,
+				C588DBA52F004A05001B5807 /* NextContestsView.swift */,
 			);
 			sourceTree = "<group>";
 		};
@@ -165,6 +168,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C588DB452EFF85E6001B5807 /* HistoryView.swift in Sources */,
+				C588DBA62F004A05001B5807 /* NextContestsView.swift in Sources */,
 				C588DB462EFF85E6001B5807 /* MainMenuView.swift in Sources */,
 				C588DB482EFF9081001B5807 /* HistoryService.swift in Sources */,
 				C588DB4A2EFF908A001B5807 /* HistoryViewModel.swift in Sources */,
