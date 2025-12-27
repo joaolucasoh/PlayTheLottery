@@ -236,80 +236,104 @@ struct GeneratingNumbersView: View {
             .padding(.top, 24)
             .padding(.horizontal, 16)
             .sheet(isPresented: $showCustomAlert) {
-                VStack(spacing: 20) {
-                    Text("Números gerados para ")
-                        .dynamicTypeSize(.medium ... .accessibility3)
-                        .minimumScaleFactor(0.7)
-                        .lineLimit(2)
-                        .font(.title)
-                        .foregroundColor(.black)
-                    
-                    Text("\(selectedGameType):")
-                        .dynamicTypeSize(.medium ... .accessibility3)
-                        .minimumScaleFactor(0.7)
-                        .lineLimit(2)
-                        .font(.title.bold())
-                        .foregroundColor(.black)
-                    
-                    if selectedGameType == "Mega-Sena" {
-                        NumberAmountSelector(label: "Quantidade de números:", value: $megaSenaNumbersAmount, range: 6...20)
-                    }
-                    
-                    if selectedGameType == "Lotofacil" {
-                        NumberAmountSelector(label: "Quantidade de números:", value: $lotofacilNumbersAmount, range: 15...20)
-                    }
-                    
-                    if selectedGameType == "Quina" {
-                        NumberAmountSelector(label: "Quantidade de números:", value: $quinaNumbersAmount, range: 5...15)
-                    }
-                    
-                    InlineBallsRowView(numbersString: alertMessage, size: 44, spacing: 8, lineSpacing: 10)
-                        .padding(.horizontal)
-                    
-                    HStack {
-                        Button("Gerar") {
-                            generateNumbersForSelectedGame()
-                        }
-                        .dynamicTypeSize(.medium ... .accessibility3)
-                        .minimumScaleFactor(0.7)
-                        .lineLimit(1)
-                        .padding()
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
-                        
-                        if UIDevice.current.userInterfaceIdiom != .pad {
-                            Button("Compartilhar") {
-                                shareViaWhatsApp(gameType: selectedGameType, message: alertMessage)
+                // Build the sheet content once with fixed header and scrollable body
+                let content = VStack(spacing: 0) {
+                    // Header fixed, flush to the top
+                    Image("background")
+                        .resizable()
+                        .scaledToFill()
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 80)
+                        .clipped()
+                        .overlay(
+                            LinearGradient(
+                                gradient: Gradient(colors: [Color.black.opacity(0.15), Color.clear]),
+                                startPoint: .top,
+                                endPoint: .bottom
+                            )
+                        )
+                        .ignoresSafeArea(.container, edges: .top)
+
+                    // Scrollable content below header
+                    ScrollView {
+                        VStack(spacing: 20) {
+                            Text("Números gerados para ")
+                                .dynamicTypeSize(.medium ... .accessibility3)
+                                .minimumScaleFactor(0.7)
+                                .lineLimit(2)
+                                .font(.title)
+                                .foregroundColor(.black)
+                            
+                            Text("\(selectedGameType):")
+                                .dynamicTypeSize(.medium ... .accessibility3)
+                                .minimumScaleFactor(0.7)
+                                .lineLimit(2)
+                                .font(.title.bold())
+                                .foregroundColor(.black)
+                            
+                            if selectedGameType == "Mega-Sena" {
+                                NumberAmountSelector(label: "Quantidade de números:", value: $megaSenaNumbersAmount, range: 6...20)
                             }
-                            .dynamicTypeSize(.medium ... .accessibility3)
-                            .minimumScaleFactor(0.7)
-                            .lineLimit(1)
+                            
+                            if selectedGameType == "Lotofacil" {
+                                NumberAmountSelector(label: "Quantidade de números:", value: $lotofacilNumbersAmount, range: 15...20)
+                            }
+                            
+                            if selectedGameType == "Quina" {
+                                NumberAmountSelector(label: "Quantidade de números:", value: $quinaNumbersAmount, range: 5...15)
+                            }
+                            
+                            InlineBallsRowView(numbersString: alertMessage, size: 44, spacing: 8, lineSpacing: 10)
+                                .padding(.horizontal)
+                            
+                            HStack {
+                                Button("Gerar") {
+                                    generateNumbersForSelectedGame()
+                                }
+                                .dynamicTypeSize(.medium ... .accessibility3)
+                                .minimumScaleFactor(0.7)
+                                .lineLimit(1)
+                                .padding()
+                                .background(Color.blue)
+                                .foregroundColor(.white)
+                                .cornerRadius(10)
+                                
+                                if UIDevice.current.userInterfaceIdiom != .pad {
+                                    Button("Compartilhar") {
+                                        shareViaWhatsApp(gameType: selectedGameType, message: alertMessage)
+                                    }
+                                    .dynamicTypeSize(.medium ... .accessibility3)
+                                    .minimumScaleFactor(0.7)
+                                    .lineLimit(1)
+                                    .padding()
+                                    .background(Color.green)
+                                    .foregroundColor(.white)
+                                    .cornerRadius(10)
+                                    .disabled(!isShareButtonEnabled)
+                                }
+                                
+                                Button("Voltar") {
+                                    showCustomAlert = false
+                                }
+                                .dynamicTypeSize(.medium ... .accessibility3)
+                                .minimumScaleFactor(0.7)
+                                .lineLimit(1)
+                                .padding()
+                                .background(Color.gray)
+                                .foregroundColor(.white)
+                                .cornerRadius(10)
+                            }
                             .padding()
-                            .background(Color.green)
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
-                            .disabled(!isShareButtonEnabled)
+                            .background(
+                                Color.white.opacity(0.9)
+                                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                            )
                         }
-                        
-                        Button("Voltar") {
-                            showCustomAlert = false
-                        }
-                        .dynamicTypeSize(.medium ... .accessibility3)
-                        .minimumScaleFactor(0.7)
-                        .lineLimit(1)
-                        .padding()
-                        .background(Color.gray)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
+                        .padding(.horizontal)
+                        .padding(.top, 16)
+                        .padding(.bottom, 16)
                     }
-                    .padding()
-                    .background(
-                        Color.white.opacity(0.9)
-                            .clipShape(RoundedRectangle(cornerRadius: 12))
-                    )
                 }
-                .padding()
                 .preferredColorScheme(.light)
                 .onAppear {
                     if alertMessage.isEmpty {
@@ -318,6 +342,18 @@ struct GeneratingNumbersView: View {
                 }
                 .onDisappear {
                     highlightedItem = nil
+                }
+
+                // Apply presentation modifiers only when available
+                if #available(iOS 16.4, *) {
+                    content
+                        .presentationDragIndicator(.hidden)
+                        .presentationCornerRadius(0)
+                } else if #available(iOS 16.0, *) {
+                    content
+                        .presentationDragIndicator(.hidden)
+                } else {
+                    content
                 }
             }
         }
