@@ -222,6 +222,17 @@ struct GeneratingNumbersView: View {
                             pressedItem = config.name
                             highlightedItem = config.name
                             selectedGameConfig = config
+                            // Reset selectors to minimum for the selected game
+                            switch config.name {
+                            case "Mega-Sena":
+                                megaSenaNumbersAmount = 6
+                            case "Lotofacil":
+                                lotofacilNumbersAmount = 15
+                            case "Quina":
+                                quinaNumbersAmount = 5
+                            default:
+                                break
+                            }
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
                                 generateNumbersForSelectedGame()
                                 showCustomAlert = true
@@ -336,6 +347,18 @@ struct GeneratingNumbersView: View {
                 }
                 .preferredColorScheme(.light)
                 .onAppear {
+                    // Ensure selectors start at minimum for the selected game
+                    switch selectedGameType {
+                    case "Mega-Sena":
+                        megaSenaNumbersAmount = 6
+                    case "Lotofacil":
+                        lotofacilNumbersAmount = 15
+                    case "Quina":
+                        quinaNumbersAmount = 5
+                    default:
+                        break
+                    }
+                    
                     if alertMessage.isEmpty {
                         generateNumbersForSelectedGame()
                     }
