@@ -3,6 +3,7 @@ import SwiftUI
 struct HistoryView: View {
     @StateObject private var viewModel = HistoryViewModel()
     @Environment(\.dismiss) private var dismiss
+    @FocusState private var contestFieldFocused: Bool
 
     var body: some View {
         ZStack {
@@ -44,6 +45,15 @@ struct HistoryView: View {
         .onChange(of: viewModel.contestQuery) { _ in
             viewModel.applyFilters()
         }
+        .toolbar {
+            ToolbarItemGroup(placement: .keyboard) {
+                Spacer()
+                Button(action: { contestFieldFocused = false }) {
+                    Image(systemName: "checkmark")
+                }
+                .accessibilityLabel("Concluir")
+            }
+        }
     }
 
     private var filterBar: some View {
@@ -73,6 +83,9 @@ struct HistoryView: View {
                 TextField("Concurso #", text: $viewModel.contestQuery)
                     .keyboardType(.numberPad)
                     .textFieldStyle(.roundedBorder)
+                    .focused($contestFieldFocused)
+                    .submitLabel(.done)
+                    .onSubmit { contestFieldFocused = false }
                     .frame(maxWidth: 150)
             }
 
@@ -183,7 +196,7 @@ private struct HistoryCard: View {
     private var dateSection: some View {
         Group {
             if let date = item.dataApuracaoDate {
-                Text("Data do sorteio: \(date.formatted(.sorteioPadrao))")
+                Text("Data do sorteio: \(date.formatted(.sorteioPadrao)))")
                     .font(.subheadline)
                     .foregroundColor(.black.opacity(0.8))
             } else {
@@ -208,3 +221,4 @@ private struct HistoryCard: View {
         HistoryView()
     }
 }
+

@@ -66,6 +66,37 @@ final class NextContestsViewModel: ObservableObject {
     }
 }
 
+extension NextContestsViewModel {
+    @MainActor
+    func scheduleTodayNotificationsIfNeeded(formatter: DateFormatter, currencyFormatter: NumberFormatter) async {
+        let granted = (try? await NotificationsManager.requestAuthorization()) ?? false
+        guard granted else { return }
+
+        NotificationsManager.clearScheduledNotifications()
+
+        let today = Calendar.current.startOfDay(for: Date())
+
+        let todayItems = items.compactMap { info -> (Date, Double?)? in
+            guard let dateStr = info.dataProximoConcurso,
+                  let date = formatter.date(from: dateStr) else { return nil }
+            let day = Calendar.current.startOfDay(for: date)
+            guard day == today else { return nil }
+            return (date, info.valorEstimadoProximoConcurso)
+        }
+
+        guard !todayItems.isEmpty else { return }
+
+        let estimates = todayItems.compactMap { $0.1 }
+        let minVal = estimates.min()
+        let maxVal = estimates.max()
+
+        let minText = minVal.flatMap { currencyFormatter.string(from: NSNumber(value: $0)) }
+        let maxText = maxVal.flatMap { currencyFormatter.string(from: NSNumber(value: $0)) }
+
+        NotificationsManager.scheduleDailyContestReminders(for: Date(), minPrizeText: minText, maxPrizeText: maxText)
+    }
+}
+
 struct NextContestsView: View {
     @StateObject private var vm = NextContestsViewModel()
     @Environment(\.dismiss) private var dismiss
@@ -117,6 +148,7 @@ struct NextContestsView: View {
         }
         .task {
             await vm.load()
+            await vm.scheduleTodayNotificationsIfNeeded(formatter: localDateFormatter, currencyFormatter: currencyFormatter)
         }
         .navigationTitle("Próximos concursos")
         .navigationBarTitleDisplayMode(.inline)

@@ -188,20 +188,35 @@ struct GeneratingNumbersView: View {
                 // Build the sheet content once with fixed header and scrollable body
                 let content = VStack(spacing: 0) {
                     // Header fixed, flush to the top
-                    Image("background")
-                        .resizable()
-                        .scaledToFill()
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 80)
-                        .clipped()
-                        .overlay(
-                            LinearGradient(
-                                gradient: Gradient(colors: [Color.black.opacity(0.15), Color.clear]),
-                                startPoint: .top,
-                                endPoint: .bottom
+                    ZStack(alignment: .topLeading) {
+                        Image("background")
+                            .resizable()
+                            .scaledToFill()
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 80)
+                            .clipped()
+                            .overlay(
+                                LinearGradient(
+                                    gradient: Gradient(colors: [Color.black.opacity(0.15), Color.clear]),
+                                    startPoint: .top,
+                                    endPoint: .bottom
+                                )
                             )
-                        )
-                        .ignoresSafeArea(.container, edges: .top)
+                            .ignoresSafeArea(.container, edges: .top)
+
+                        // Close button (X) in the top-left, similar to Safari sheet style
+                        Button(action: { showCustomAlert = false }) {
+                            Image(systemName: "xmark")
+                                .font(.system(size: 14, weight: .semibold))
+                                .foregroundColor(.primary)
+                                .frame(width: 28, height: 28)
+                                .background(.ultraThinMaterial)
+                                .clipShape(Circle())
+                        }
+                        .padding(.top, 12)
+                        .padding(.leading, 12)
+                        .accessibilityLabel("Fechar")
+                    }
 
                     // Scrollable content below header
                     ScrollView {
@@ -260,17 +275,6 @@ struct GeneratingNumbersView: View {
                                     .cornerRadius(10)
                                     .disabled(!isShareButtonEnabled)
                                 }
-                                
-                                Button("Voltar") {
-                                    showCustomAlert = false
-                                }
-                                .dynamicTypeSize(.medium ... .accessibility3)
-                                .minimumScaleFactor(0.7)
-                                .lineLimit(1)
-                                .padding()
-                                .background(Color.gray)
-                                .foregroundColor(.white)
-                                .cornerRadius(10)
                             }
                             .padding()
                             .background(
