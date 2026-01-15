@@ -10,24 +10,32 @@ import SwiftUI
 struct SplashView: View {
     
     @ObservedObject var viewModel: SplashViewModel
+    @State private var hasEnteredApp = false
     
     var body: some View {
-        Group {
-            switch viewModel.uiState {
-            case .loading:
-                LoadingView()
-            case .homeScreen:
-                NavigationStack {
+        NavigationStack {
+            Group {
+                switch viewModel.uiState {
+                case .loading:
+                    if hasEnteredApp {
+                        MainMenuView()
+                    } else {
+                        LoadingView()
+                    }
+                case .homeScreen:
                     MainMenuView()
+                        .onAppear { hasEnteredApp = true }
+                case .generateNumbers:
+                    viewModel.generatingNumbersView()
+                        .onAppear { hasEnteredApp = true }
+                case .error(let msg):
+                    Text("error \(msg)")
                 }
-            case .generateNumbers:
-                viewModel.generatingNumbersView()
-            case .error(let msg):
-                Text("error \(msg)")
             }
-        }.onAppear(perform: {
+        }
+        .onAppear {
             viewModel.onAppear()
-        })
+        }
     }
 }
 
