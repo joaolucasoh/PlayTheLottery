@@ -1,8 +1,10 @@
+import Foundation
 import SwiftUI
 
 struct GeneratingNumbersView: View {
     
     @StateObject var viewModel: GeneratingNumbersViewModel
+    @ObservedObject var favoriteNumbersService = FavoriteNumbersService.shared
     
     init(viewModel: GeneratingNumbersViewModel = GeneratingNumbersViewModel()) {
         _viewModel = StateObject(wrappedValue: viewModel)
@@ -24,6 +26,9 @@ struct GeneratingNumbersView: View {
     
     // Novo estado para a quantidade de números da Quina
     @State private var quinaNumbersAmount = 5
+    
+    // Estado para feedback visual do toque no favoritar
+    @State private var isFavoritingPressed = false
     
     struct GameConfig {
         let name: String
@@ -247,8 +252,52 @@ struct GeneratingNumbersView: View {
                                 NumberAmountSelector(label: "Quantidade de números:", value: $quinaNumbersAmount, range: 5...15)
                             }
                             
+                            Divider().opacity(0.15)
+                                .padding(.horizontal)
+                                .padding(.top, 4)
+                            
                             InlineBallsRowView(numbersString: alertMessage, size: 44, spacing: 8, lineSpacing: 10)
                                 .padding(.horizontal)
+                            
+                            Divider().opacity(0.15)
+                                .padding(.horizontal)
+                            
+                            // Favoritar números HStack com onTapGesture, sem aparência de botão
+                            let numbersArray = alertMessage.components(separatedBy: " 🍀 ").map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+                            let isFavorited = favoriteNumbersService.isFavorited(gameType: selectedGameType, numbers: numbersArray)
+                            let canFavorite = !alertMessage.isEmpty
+                            
+                            HStack(spacing: 8) {
+                                Image(systemName: isFavorited ? "star.fill" : "star")
+                                    .renderingMode(.template)
+                                    .foregroundColor(isFavorited ? .yellow : .gray)
+                                    .font(.system(size: 20, weight: .semibold))
+                                    .scaleEffect(isFavoritingPressed ? 0.85 : 1.0)
+                                Text(isFavorited ? "Números favoritados com sucesso!🎉" : "Favoritar números")
+                                    .foregroundColor(.black)
+                                    .scaleEffect(isFavoritingPressed ? 0.85 : 1.0)
+                            }
+                            .dynamicTypeSize(.medium ... .accessibility3)
+                            .minimumScaleFactor(0.7)
+                            .lineLimit(1)
+                            .frame(maxWidth: .infinity)
+                            .contentShape(Rectangle())
+                            .padding(.top, 8)
+                            .disabled(!canFavorite)
+                            .onTapGesture {
+                                guard canFavorite else { return }
+                                isFavoritingPressed = true
+                                if isFavorited {
+                                    favoriteNumbersService.removeFavorite(gameType: selectedGameType, numbers: numbersArray)
+                                } else {
+                                    favoriteNumbersService.addFavorite(gameType: selectedGameType, numbers: numbersArray)
+                                }
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+                                    isFavoritingPressed = false
+                                }
+                            }
+                            .animation(.easeInOut, value: isFavorited)
+                            .padding(.horizontal)
                             
                             HStack {
                                 Button("Gerar") {

@@ -3,7 +3,7 @@ import Foundation
 import SwiftUI
 
 struct FavoriteNumberEntry: Identifiable, Codable, Equatable {
-    let id: UUID = UUID()
+    let id: UUID
     let gameType: String // ex: "Mega-Sena"
     let numbers: [String] // ex: ["01", "23", "44", ...]
     let savedAt: Date
@@ -31,7 +31,7 @@ class FavoriteNumbersService: ObservableObject {
 
     func addFavorite(gameType: String, numbers: [String]) {
         guard !isFavorited(gameType: gameType, numbers: numbers) else { return }
-        let entry = FavoriteNumberEntry(gameType: gameType, numbers: numbers, savedAt: Date())
+        let entry = FavoriteNumberEntry(id: UUID(), gameType: gameType, numbers: numbers, savedAt: Date())
         favorites.append(entry)
         save()
     }
@@ -56,3 +56,4 @@ class FavoriteNumbersService: ObservableObject {
         }
     }
 }
+

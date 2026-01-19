@@ -33,6 +33,15 @@ struct MainMenuView: View {
                         )
                     }
 
+                    NavigationLink(destination: FavoriteNumbersView()) {
+                        MenuCard(
+                            title: "Meus números favoritos",
+                            subtitle: "Veja seus palpites favoritos",
+                            systemImage: "star",
+                            date: nil
+                        )
+                    }
+
                     NavigationLink(destination: HistoryView()) {
                         MenuCard(
                             title: "Histórico de Concursos",

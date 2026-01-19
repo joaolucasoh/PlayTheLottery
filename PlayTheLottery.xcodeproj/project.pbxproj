@@ -10,6 +10,8 @@
 		C5506E762B8D9B9D00CB5F6D /* PlayTheLotteryApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5506E752B8D9B9D00CB5F6D /* PlayTheLotteryApp.swift */; };
 		C5506E7A2B8D9B9F00CB5F6D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C5506E792B8D9B9F00CB5F6D /* Assets.xcassets */; };
 		C5506E7D2B8D9B9F00CB5F6D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C5506E7C2B8D9B9F00CB5F6D /* Preview Assets.xcassets */; };
+		C552F5DD2F19363200AAC5CB /* FavoriteNumbersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C552F5DC2F19363200AAC5CB /* FavoriteNumbersView.swift */; };
+		C552F5DF2F1936DB00AAC5CB /* FavoriteNumbersService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C552F5DE2F1936DB00AAC5CB /* FavoriteNumbersService.swift */; };
 		C588DB452EFF85E6001B5807 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C588DB442EFF8438001B5807 /* HistoryView.swift */; };
 		C588DB462EFF85E6001B5807 /* MainMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C588DB432EFF8435001B5807 /* MainMenuView.swift */; };
 		C588DB482EFF9081001B5807 /* HistoryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C588DB472EFF9081001B5807 /* HistoryService.swift */; };
@@ -25,6 +27,8 @@
 		C5506E752B8D9B9D00CB5F6D /* PlayTheLotteryApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayTheLotteryApp.swift; sourceTree = "<group>"; };
 		C5506E792B8D9B9F00CB5F6D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C5506E7C2B8D9B9F00CB5F6D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		C552F5DC2F19363200AAC5CB /* FavoriteNumbersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteNumbersView.swift; sourceTree = "<group>"; };
+		C552F5DE2F1936DB00AAC5CB /* FavoriteNumbersService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteNumbersService.swift; sourceTree = "<group>"; };
 		C588DB2C2EFC5F35001B5807 /* BallsRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BallsRowView.swift; sourceTree = "<group>"; };
 		C588DB432EFF8435001B5807 /* MainMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuView.swift; sourceTree = "<group>"; };
 		C588DB442EFF8438001B5807 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
@@ -63,6 +67,8 @@
 				C588DB4B2EFF90EE001B5807 /* BallsViews.swift */,
 				C588DBA52F004A05001B5807 /* NextContestsView.swift */,
 				C588DBA72F005799001B5807 /* NotificationsManager.swift */,
+				C552F5DC2F19363200AAC5CB /* FavoriteNumbersView.swift */,
+				C552F5DE2F1936DB00AAC5CB /* FavoriteNumbersService.swift */,
 			);
 			sourceTree = "<group>";
 		};
@@ -172,11 +178,13 @@
 			files = (
 				C588DB452EFF85E6001B5807 /* HistoryView.swift in Sources */,
 				C588DBA62F004A05001B5807 /* NextContestsView.swift in Sources */,
+				C552F5DD2F19363200AAC5CB /* FavoriteNumbersView.swift in Sources */,
 				C588DBA82F005799001B5807 /* NotificationsManager.swift in Sources */,
 				C588DB462EFF85E6001B5807 /* MainMenuView.swift in Sources */,
 				C588DB482EFF9081001B5807 /* HistoryService.swift in Sources */,
 				C588DB4A2EFF908A001B5807 /* HistoryViewModel.swift in Sources */,
 				C5506E762B8D9B9D00CB5F6D /* PlayTheLotteryApp.swift in Sources */,
+				C552F5DF2F1936DB00AAC5CB /* FavoriteNumbersService.swift in Sources */,
 				C588DB4C2EFF90EE001B5807 /* BallsViews.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -332,12 +340,12 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UlinterfaceOrientationPortraitUpsideDown UlinterfaceOrientationLandscapeLeft UlinterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.0;
+				MARKETING_VERSION = 3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.joaolucas.PlayTheLottery;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -372,12 +380,12 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UlinterfaceOrientationPortraitUpsideDown UlinterfaceOrientationLandscapeLeft UlinterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.0;
+				MARKETING_VERSION = 3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.joaolucas.PlayTheLottery;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
