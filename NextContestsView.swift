@@ -127,23 +127,25 @@ struct NextContestsView: View {
     }
     
     var body: some View {
-        ZStack {
-            Image("splash-screen")
-                .resizable()
-                .scaledToFill()
-                .ignoresSafeArea()
-                .opacity(0.30)
-            ScrollView {
-                VStack(spacing: 12) {
-                    ForEach(vm.items) { item in
-                        card(for: item)
-                            .frame(maxWidth: 560)
-                            .frame(maxWidth: .infinity)
+        LoadingOverlay(isLoading: $vm.isLoading, message: "Buscando próximos concursos. Aguarde...", numbers: [3, 9, 12, 27, 38, 52], size: 44, speed: 0.4) {
+            ZStack {
+                Image("splash-screen")
+                    .resizable()
+                    .scaledToFill()
+                    .ignoresSafeArea()
+                    .opacity(0.30)
+                ScrollView {
+                    VStack(spacing: 12) {
+                        ForEach(vm.items) { item in
+                            card(for: item)
+                                .frame(maxWidth: 560)
+                                .frame(maxWidth: .infinity)
+                        }
                     }
+                    .padding(.horizontal, 20)
+                    .padding(.top, 8)
+                    .padding(.bottom, 24)
                 }
-                .padding(.horizontal, 20)
-                .padding(.top, 8)
-                .padding(.bottom, 24)
             }
         }
         .task {

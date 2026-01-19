@@ -6,32 +6,31 @@ struct HistoryView: View {
     @FocusState private var contestFieldFocused: Bool
 
     var body: some View {
-        ZStack {
-            Image("background")
-                .resizable()
-                .scaledToFill()
-                .ignoresSafeArea()
-                .opacity(0.30)
+        LoadingOverlay(isLoading: $viewModel.isLoading, message: "Buscando o histórico. Aguarde...", numbers: [5, 8, 14, 21, 34, 57], size: 44, speed: 0.45) {
+            ZStack {
+                Group {
+                    Image("background")
+                        .resizable()
+                        .scaledToFill()
+                        .ignoresSafeArea()
+                        .opacity(0.30)
 
-            ScrollView {
-                VStack(spacing: 16) {
-                    filterBar
+                    ScrollView {
+                        VStack(spacing: 16) {
+                            filterBar
 
-                    if viewModel.isLoading {
-                        ProgressView("Carregando histórico...")
-                            .padding(.top, 24)
-                    } else {
-                        LazyVStack(spacing: 12) {
-                            ForEach(viewModel.filteredResults) { item in
-                                HistoryCard(item: item)
+                            LazyVStack(spacing: 12) {
+                                ForEach(viewModel.filteredResults) { item in
+                                    HistoryCard(item: item)
+                                }
                             }
+                            .padding(.horizontal, 16)
+                            .padding(.bottom, 16)
                         }
+                        .padding(.top, 12)
                         .padding(.horizontal, 16)
-                        .padding(.bottom, 16)
                     }
                 }
-                .padding(.top, 12)
-                .padding(.horizontal, 16)
             }
         }
         .navigationTitle("Histórico")
@@ -221,4 +220,3 @@ private struct HistoryCard: View {
         HistoryView()
     }
 }
-

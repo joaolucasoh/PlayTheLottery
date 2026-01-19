@@ -19,6 +19,8 @@
 		C588DB4C2EFF90EE001B5807 /* BallsViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = C588DB4B2EFF90EE001B5807 /* BallsViews.swift */; };
 		C588DBA62F004A05001B5807 /* NextContestsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C588DBA52F004A05001B5807 /* NextContestsView.swift */; };
 		C588DBA82F005799001B5807 /* NotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C588DBA72F005799001B5807 /* NotificationsManager.swift */; };
+		C5CAF1EE2F1EAE0E00F9DDC3 /* LotterBallsLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5CAF1ED2F1EAE0500F9DDC3 /* LotterBallsLoadingView.swift */; };
+		C5CAF1F02F1EB05600F9DDC3 /* LoadingOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5CAF1EF2F1EB05600F9DDC3 /* LoadingOverlay.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +39,8 @@
 		C588DB4B2EFF90EE001B5807 /* BallsViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BallsViews.swift; sourceTree = "<group>"; };
 		C588DBA52F004A05001B5807 /* NextContestsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextContestsView.swift; sourceTree = "<group>"; };
 		C588DBA72F005799001B5807 /* NotificationsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsManager.swift; sourceTree = "<group>"; };
+		C5CAF1ED2F1EAE0500F9DDC3 /* LotterBallsLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LotterBallsLoadingView.swift; sourceTree = "<group>"; };
+		C5CAF1EF2F1EB05600F9DDC3 /* LoadingOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingOverlay.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -69,6 +73,8 @@
 				C588DBA72F005799001B5807 /* NotificationsManager.swift */,
 				C552F5DC2F19363200AAC5CB /* FavoriteNumbersView.swift */,
 				C552F5DE2F1936DB00AAC5CB /* FavoriteNumbersService.swift */,
+				C5CAF1ED2F1EAE0500F9DDC3 /* LotterBallsLoadingView.swift */,
+				C5CAF1EF2F1EB05600F9DDC3 /* LoadingOverlay.swift */,
 			);
 			sourceTree = "<group>";
 		};
@@ -179,10 +185,12 @@
 				C588DB452EFF85E6001B5807 /* HistoryView.swift in Sources */,
 				C588DBA62F004A05001B5807 /* NextContestsView.swift in Sources */,
 				C552F5DD2F19363200AAC5CB /* FavoriteNumbersView.swift in Sources */,
+				C5CAF1F02F1EB05600F9DDC3 /* LoadingOverlay.swift in Sources */,
 				C588DBA82F005799001B5807 /* NotificationsManager.swift in Sources */,
 				C588DB462EFF85E6001B5807 /* MainMenuView.swift in Sources */,
 				C588DB482EFF9081001B5807 /* HistoryService.swift in Sources */,
 				C588DB4A2EFF908A001B5807 /* HistoryViewModel.swift in Sources */,
+				C5CAF1EE2F1EAE0E00F9DDC3 /* LotterBallsLoadingView.swift in Sources */,
 				C5506E762B8D9B9D00CB5F6D /* PlayTheLotteryApp.swift in Sources */,
 				C552F5DF2F1936DB00AAC5CB /* FavoriteNumbersService.swift in Sources */,
 				C588DB4C2EFF90EE001B5807 /* BallsViews.swift in Sources */,
