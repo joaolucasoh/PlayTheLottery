@@ -108,7 +108,7 @@ struct GeneratingNumbersView: View {
 
     var body: some View {
         ZStack {
-            Image("background")
+            Image("splash-screen")
                 .resizable()
                 .scaledToFill()
                 .ignoresSafeArea()
