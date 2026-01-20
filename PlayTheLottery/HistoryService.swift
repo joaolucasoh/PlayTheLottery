@@ -1,6 +1,6 @@
 import Foundation
 
-struct LotteryResult: Decodable, Identifiable {
+struct LotteryResult: Codable, Identifiable {
     var id: String { "\(tipoJogo)-\(numero)" }
 
     let tipoJogo: String
