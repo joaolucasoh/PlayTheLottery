@@ -195,7 +195,7 @@ private struct HistoryCard: View {
     private var dateSection: some View {
         Group {
             if let date = item.dataApuracaoDate {
-                Text("Data do sorteio: \(date.formatted(.sorteioPadrao)))")
+                Text("Data do sorteio: \(date.formatted(.sorteioPadrao))")
                     .font(.subheadline)
                     .foregroundColor(.black.opacity(0.8))
             } else {
