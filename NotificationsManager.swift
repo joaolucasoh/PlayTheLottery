@@ -26,7 +26,7 @@ enum NotificationsManager {
     static func scheduleDailyContestReminders(for date: Date, minPrizeText: String?, maxPrizeText: String?) {
         let twelvePM = dateSettingTime(date, hour: 12, minute: 0)
         let fourPM = dateSettingTime(date, hour: 16, minute: 0)
-        let sixPM = dateSettingTime(date, hour: 18, minute: 0)
+        let sevenPM = dateSettingTime(date, hour: 19, minute: 0)
 
         let center = UNUserNotificationCenter.current()
         clearScheduledNotifications()
@@ -35,7 +35,7 @@ enum NotificationsManager {
             identifier: "contest-reminder-12",
             date: twelvePM,
             title: "Já fez sua fezinha hoje?",
-            body: "As apostas se encerram às 19h."
+            body: "As apostas se encerram às 20h."
         )
 
         let body16: String
@@ -53,10 +53,10 @@ enum NotificationsManager {
         )
 
         scheduleOneTimeNotification(
-            identifier: "contest-reminder-18",
-            date: sixPM,
+            identifier: "contest-reminder-19",
+            date: sevenPM,
             title: "Já fez sua fezinha hoje?",
-            body: "As apostas se encerram às 19h."
+            body: "As apostas se encerram às 20h."
         )
     }
 
